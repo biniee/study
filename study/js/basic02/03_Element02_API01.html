@@ -17,8 +17,28 @@
       </ul>
       <script>
         /* 
-        식별자 API        
+        식별자 API
+        식별자 : 각 엘리먼트들이 자신을 찾아낼 수 있도록 이름을 갖는 것
+
         */
+        console.log(document.getElementById('active').tagName) // LI 출력
+
+        /*
+        document.getElementById('active') => HTMLLIElment
+
+        Element
+        ↓ 상속
+        HTMLElement
+        ↓ 상속
+        HTMLLIElement
+
+        Element.tagName 이라는 프로퍼티를 이용해 태그 이름을 알 수 있다.
+        */
+
+        document.getElementById('active').tagName = 'a';
+        console.log(document.getElementById('active').tagName) // LI 출력
+        // => Element.tagName 이라는 프로퍼티는 값을 변경할 수 없다. 즉 읽기 전용
+        
       </script>
     </div>
     <footer class="footer"></footer>
