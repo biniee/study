@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - arguments</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      /***************************************/
+      function a(arg) {} // a라는 함수에 값이 저장되는 arg는 매개변수(parameter)
+      a(1); // a함수 호출할때 함수의 매개변수에 보내는 1은 인자값이라고 한다.
+      /***************************************/
+      
+      function zero(){
+        console.log(
+          'zero.length', zero.length,
+          'arguments', arguments.length
+        )
+      }
+      zero();
+
+      function one(arg1){
+        console.log(
+          'one.length', one.length, // 함수의 length는 함수가 매개변수로 정의한 것의 숫자 => 1개
+          'arguments', arguments.length // 매개변수의 숫자여부와 상관 없이, 함수를 호출할 때 몇개의 인자를 전달 했는가에 대한 정보 => 2개
+        )        
+      }
+      one('val1','val2');
+
+    </script>
+  </div>
+</body>
+</html>
+

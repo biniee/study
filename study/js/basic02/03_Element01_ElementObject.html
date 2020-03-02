@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript</title>
+  <script src="../../../js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li id="active">javaScript</li>
+      </ul>
+      <script>
+        var t = document.getElementById('active'); // => HTMLLIElement
+
+        /* 
+        
+        모든 객체는 HTMLElement의 자식
+        그리고 HTMLElement는 Element라는 부모객체를 가지고 있다.
+        
+        Element는 문서상에 있는 모든 엘리먼트들에 대한 기능들을 정의하고있는 객체
+
+        DOM은 html뿐만 아니라 다른 마크업 언어(xml, svg등)를 지원하기 위한 표준이기 때문에 
+        Element가 있음에도 불구하고 HTMLElement라는 모든 객체의 부모라는 객체가 존재한다.
+        
+        */
+      </script>
+    </div>
+    <footer class="footer"></footer>
+  </div>
+  
+</body>
+</html>

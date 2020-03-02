@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+@import url("reset.css");
+
+html, body{height:100%;}
+.wrap{height:100%;background:#f2f4f5;}
+.container{padding:36px 18px;}
+.tit_h3{font-size:17px;}
+
+/* 급상승검색어 */
+.box_list_keyword {margin-top:15px;}
+.box_list_keyword .keyword {width:100%;margin:0 6px 6px 0;background:#fff;box-sizing:border-box;}
+.box_list_keyword .keyword a{display:block;padding:12px 20px;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.box_list_keyword .keyword .num{display:inline-block;padding-right:3px;font-weight:bold;color:#01cc7c;}
+.box_list_keyword .keyword .txt{color:#000;}

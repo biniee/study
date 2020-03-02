@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - object oriented programming</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      function sum(x,y){
+        return x+y;
+      } // 함수리터럴(Literal) : 객체를 명시적으로 만들 수 있지만 그것보다 편리하게 만들수 있도록 한 문법
+      // => sum이라는 함수 객체를 만든 것. 객체는 그 객체의 프로퍼티를 가진다. 
+      var sum2 = new Function('x', 'y', 'return x+y');
+
+
+
+      var o = {}
+      var p = {}
+      function func(){
+          switch(this){
+              case o:
+                  document.write('o<br />');
+                  break;
+              case p:
+                  document.write('p<br />');
+                  break;
+              case window:
+                  document.write('window<br />');
+                  break;          
+          }
+      }
+      func();         // window 출력
+      func.apply(o);  // o 출력 => func는 o의 메소드
+      func.apply(p);  // p 출력 => func는 p의 메소드
+
+      /*
+      일반적인 객체 지향에서 메소드는 객체에 강하게 소속되어있다. 객체(master) - 메소드(slave) 관계
+      그러나, 자바스크립트에서의 함수는 어떻게 호출하느냐에 따라서 window에 소속되기도, p에 소속되기도, o에 소속되기도 한다.
+      즉 객체와 함수는 대등하며 개별적이다. 자바스크립트에서는 함수도 객체이기 때문이다.
+
+      => *** this는 변화무쌍하다. 함수가 누구의 소속이냐에 따라서 this의 값은 그 객체를 가리킨다.
+      */
+    </script>
+  </div>
+</body>
+</html>
+

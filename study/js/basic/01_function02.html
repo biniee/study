@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - 값으로서의 함수</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      // 함수 = 값.
+      
+      function cal(mode){
+        var funcs = {
+          'plus'  : function(left, right){ return left + right },
+          'minus' : function(left, right){ return left - right } 
+        }
+        // 함수는 객체의 value값으로 들어갈 수 있다.
+
+        return funcs[mode]; // 리턴값으로의 함수 사용
+      }
+
+      alert(cal('plus')(1,2));
+
+      var process = [
+        function(input){ return input + 10; },
+        function(input){ return input * input; },
+        function(input){ return input/2; }
+      ]; // 배열로서의 함수 사용 - 함수는 값이기 때문에 값을 저장하는 컨테이너인 배열에도 사용할 수 있다.
+
+      var input = 1;
+      for(var i=0;i<process.length;i++){
+        input = process[i](input);
+      }
+      console.log(input);
+
+      
+    </script>
+  </div>
+</body>
+</html>
+

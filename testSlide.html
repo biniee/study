@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <link rel="stylesheet" href="css/common.css">
+  <style>
+    @font-face { font-family: 'BBTreeGL'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGL.woff') format('woff'); font-weight: normal; font-style: normal; }
+  /* reset */
+  * {margin: 0; padding: 0; box-sizing:border-box;}
+  a {text-decoration: none;}
+  li {list-style: none;}
+  img {display: block;}
+  body {
+    height: 100vh;
+    background: #0F2027;
+    background:linear-gradient(-20deg, #2b5876 0%, #4e4376 100%); 
+  }
+  h1 {
+    position: fixed; left: 0; top: 0; width: 100%; z-index: 100;
+    font-family: 'BBTreeGL'; 
+    text-align: center; padding: 20px; 
+    color: #fff; line-height: 1.4;
+    border-bottom: 1px solid rgba(255,255,255,.4);
+    background: rgba(0,0,0,.4);
+  }
+
+
+  /* slide */
+  .slide-show {
+    width: 900px; height: 220px; overflow: hidden;
+    position: absolute; 
+    left: 0; top: 0; right: 0; bottom: 0; 
+    margin: auto;
+  }
+  .slide-list {position: relative; overflow: hidden; width: 3300px; height: 220px;}
+  .slide-list > div {float: left; width: 290px; padding: 5px; height: 193px;  box-sizing: content-box; position: relative; }
+  .slide-list > div:before {position: absolute; left: 10px; top: 10px; color: #fff; font-family: 'Cafe24Danjunghae'; }
+  .slide-list > div:nth-child(3n+1)::before {content:'01'}
+  .slide-list > div:nth-child(3n+2)::before {content:'02'}
+  .slide-list > div:nth-child(3n+3)::before {content:'03'}
+  .slide-list > div img {width: 100%;}
+
+
+  .slide-btn {position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);}
+  .slide-btn button {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    font-family: 'BBTreeGL';
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .slide-btn button:hover {background: rgba(0,0,0,0.8);}  
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>버튼을 이용한 롤링 이미지 슬라이드 구현</h1>
+    <div class="slide-wrap">
+      <div class="slide-show">
+        <div class="slide-list">
+          <div class="slide"><img src="https://tistory4.daumcdn.net/tistory/3344038/skin/images/img01.jpg" alt=""></div>      
+          <div class="slide"><img src="https://tistory4.daumcdn.net/tistory/3344038/skin/images/img02.jpg" alt=""></div>
+          <div class="slide"><img src="https://tistory1.daumcdn.net/tistory/3344038/skin/images/img05.jpg" alt=""></div>
+          
+        </div>
+      </div>
+      <div class="slide-btn">
+        <button class="prev">prev</button>    
+        <button class="next">next</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    const slideWrap = $(".slide-wrap"),
+          slideShow = slideWrap.find(".slide-show"),
+          slideList = slideShow.find(".slide-list"),
+          slides = slideList.find(".slide"),
+          slideBtn = slideWrap.find(".slide-btn");
+
+    let slideCount = slides.length,
+        slideWidth = slides.innerWidth(),
+        showNum = 3,
+        num = 0,
+        currentIndex = 0,
+        
+        slideCopy = $(".slide:lt("+ showNum +")").clone();
+        slideList.append(slideCopy);
+
+
+    //이미지 움직이기
+    function backShow(){
+      if(num == 0){ //시작
+        num = slideCount;
+        slideList.css("left", -num * slideWidth + "px");
+      }
+      num--;
+      slideList.stop().animate({ left: -slideWidth * num + "px" }, 400);
+    }
+    function nextShow(){
+      if( num == slideCount ){ //마지막
+        num = 0;
+        slideList.css("left", num);
+      }
+      num++;
+      slideList.stop().animate({ left: -slideWidth * num + "px" }, 400);
+    }
+
+    //버튼
+    slideBtn.on("click", "button", function(){
+      if( $(this).hasClass("prev") ){
+        backShow();
+      } else {
+        nextShow();
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - object oriented programming</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      /*
+      this란? 함수 내에서 함수 호출 맥락(context)을 의미
+      맥락 - 의미가 고정되어 있지 않고 상황에 따라 달라진다. 가변적이다.
+      => 함수 안에서 사용할 수 있는 일종의 변수이며 변수 안에 담겨있는 값은 함수를 어떻게 호출하느냐에 따라 달라짐
+      */
+
+      function func(){
+        if(window === this){
+          console.log('window === this');
+        }
+      }
+      func(); // window === this 출력
+    </script>
+  </div>
+</body>
+</html>
+
