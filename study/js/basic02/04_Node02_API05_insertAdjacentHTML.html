@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript</title>
+  <script src="../../../js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <ul id="target">
+    <li>CSS</li>
+  </ul>
+  <input type="button" onclick="beforebegin();" value="beforebegin">
+  <input type="button" onclick="afterbegin();" value="afterbegin">
+  <input type="button" onclick="beforeend();" value="beforeend">
+  <input type="button" onclick="afterend();" value="afterend">
+  <script>
+    /*
+    function beforebegin(){
+      var target = document.getElementById('target');
+      target.insertAdjacentHTML('beforebegin', '<h1>Client Side</h1>'); // target 시작 전, <ul> 태그 앞에 추가
+    }
+    function afterbegin(){
+      var target = document.getElementById('target');
+      target.insertAdjacentHTML('afterbegin', '<li>Html</li>'); // target 시작 후, <ul> 태그 뒤에 추가
+    }
+    function beforeend(){
+      var target = document.getElementById('target');
+      target.insertAdjacentHTML('beforeend', '<li>JavaScript</li>'); // target 끝나기 전, </ul> 앞에(안에) 추가
+    }
+    function afterend(){
+      var target = document.getElementById('target');
+      target.insertAdjacentHTML('afterend', '<h1>Server Side</h1>'); // target 끝난 후, </ul> 뒤에(밖에) 추가
+    }
+    */
+
+    var target = document.getElementById('target');
+    function beforebegin(){
+      target.insertAdjacentHTML('beforebegin', '<h1>Client Side</h1>'); // target 시작 전, <ul> 태그 앞에 추가
+    }
+    function afterbegin(){
+      target.insertAdjacentHTML('afterbegin', '<li>Html</li>'); // target 시작 후, <ul> 태그 뒤에 추가
+    }
+    function beforeend(){
+      target.insertAdjacentHTML('beforeend', '<li>JavaScript</li>'); // target 끝나기 전, </ul> 앞에(안에) 추가
+    }
+    function afterend(){
+      target.insertAdjacentHTML('afterend', '<h1>Server Side</h1>'); // target 끝난 후, </ul> 뒤에(밖에) 추가
+    }
+  </script>
+</body>
+</html>
