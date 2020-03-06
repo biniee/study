@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>javaScript Flow</title>
+  <script src="../../../js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="container">
+      <script>
+        /*
+        < callback 함수 >
+        : something will call this function back sometime somtehow.
+        : 무언가가 이 함수을 호출해서 나에게 다시 돌려줄거야, 언젠가 어떻게든
+        => 제어권을 맡기고자하는 대상한테 맡기는 것.        
+        */
+        
+        // exam 1. 
+        setInterval(function(){
+          console.log('1초마다 실행될 겁니다.');
+        }, 1000);
+        /*
+        setInterval - 주기함수 호출
+        function(){} - 인자1, 콜백함수
+        1000 - 인자2, 콜백함수
+        => setInterval에게 콜백함수의 제어권을 넘겨준것으로 setInterval은 인자2의 숫자만큼의 주기로 함수를 실핸한다.
+        */
+
+        // exam 2.
+        var arr = [1, 2, 3, 4, 5];
+        var entries = [];
+        arr.forEach(function(v,i){
+          entries.push([i,v,this[i]]);
+        }, [10,20,30,40,50]);
+        console.log(entries);
+
+        /*
+        Array.prototype.forEach()
+        => forEach 메소드는 주어진 함수를 배열 요소 각각에 대해 실행한다.
+
+        arr.forEach(callback(currentValue, index){
+        }, thisArg);
+
+        callback : 각 요소에 대해 실행할 함수
+        currentValue : 처리할 현재 요소
+        index : 처리할 현재 요소의 인덱스 
+        thisArg : callback을 실행할 때 this로 사용할 값.
+
+        콜백함수를 정의할 때 파라미터의 순서는 제어권을 넘겨받을 대상(forEach)의 규칙을 반드시 따라야 한다.
+        */
+
+
+        //exam 3.
+        document.body.innerHTML = '<div id="a">abc</div>';
+        function cbFunc(x){
+          console.log(this, x);
+        }
+
+        document.getElementById('a').addEventListener('click', cbFunc);
+
+        $('#a').on('click', cbFunc);
+
+        /*
+        EventTarget.addEventListener()
+        : EventTarget의 addEventListener() 메소드는 지정한 이벤트가 대상에 전달될 때마다 호출할 함수 설정
+
+        target.addEventListner(type, listner[, useCapture]);
+
+        type : 등록할 event type을 나타내는 문자열
+        listener : 특정 타입의 이벤트가 발생할 때 알림을 받을 객체. 
+                   반드시 EventListener 인터페이스를 수행하는 객체이거나, function이어야 함
+        */
+
+        /****************
+        * 콜백함수의 특징
+
+        => 다른함수 A의 매개변수로 콜백함수 B를 전달하면, A가 B의 제어권을 갖게 된다.
+        => 특별한 요청이 없는 한 A에 미리 정해진 방식에 따라 B를 호출한다.
+        => 미리 정해져있는 방식이란 this에 무엇을 바인딩할지, 매개변수에는 어떤 값을 지정할지, 어떤 타이밍에 콜백을 호출할지 등
+        => *** 콜백은 함수다. (메소드가 아니라)
+
+        *****************/
+
+        var arr = [1, 2, 3, 4, 5];
+        var obj = {
+          value : [1, 2, 3],
+          logValues: function(v,i){
+            if(this.vals) {
+              console.log(this.vals, v, i);
+            }else {
+              console.log(this, v, i);
+            }
+          }
+        };
+        obj.logValues(1,2);
+        //arr.forEach(obj.logValues);
+
+      </script>
+      
+    </div>
+  </div>
+</body>
+</html>
