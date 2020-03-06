@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript</title>
+  <script src="../../../js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <!-- 
+  < text 객체 > 
+
+  <p>생활코딩</p>
+  => <p></p> 태그는 element
+     생활코딩은 Text객체
+     Text는 CharacterData 객체를 상속받음
+  -->
+  
+  <p id="target1"><span>Hello world</span></p>
+  <p id="target2">
+    <span>Hello world</span>
+  </p>
+
+  <script>
+    var t1 = document.getElementById('target1').firstChild; // <span>Hello world</span> 출력
+    var t2 = document.getElementById('target2').firstChild; // #text 출력
+
+    /*
+    console.log(t1.firstChild.nodeValue);
+    try{
+      console.log(t2.firstChild.nodeValue);
+    }catch(e){
+      console.log(e);
+    }
+    console.log(t2.nextSibling.firstChild.nadeValue);
+    */
+
+  </script>
+</body>
+</html>
