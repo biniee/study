@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>javaScript Flow</title>
+</head>
+<body>
+  <div class="wrap">
+    <div class="container">
+      <script>
+        function  a() {
+          return 'a';
+        }
+        // => 함수선언문(function declaration)
+
+        var b = function bb(){
+          return 'bb';
+        }
+        // => 기명 함수표현식(named function expression)
+
+        var c = function(){
+          return 'c';
+        }
+        // =>(익명) 함수표현식(unnamed / annonymous function expression)
+
+        /*
+        
+        < 함수선언문 & 함수표현식 >
+
+        이전에는 기명함수를 사용하는 것의 이점이 분명했다. 에러가 발생했을 때 에러발생 함수의 이름을 콘솔이 출력해 주었기 떄문에.
+        그러나 최근의 브라우저는 익명함수에 대해 자동으로 네임 프로퍼티를 할당하기 때문에 기명함수의 사용이 줄어들었다.
+        */
+
+        var c; // 변수 선언
+        var c = function(){
+          return c;
+        } // 익명함수 선언 후 c에 함수 할당
+        // ==> 함수 선언문과 함수 표현식의 차이는 '할당' 여부에 있다. 
+        // 할당을 하지 않을경우 전체가 호이스팅 되고, 할당을 하는 경우는 변수만 호이스팅 되고 함수는 그자리에 남아있게 된다.
+      </script>
+    </div>
+  </div>
+</body>
+</html>

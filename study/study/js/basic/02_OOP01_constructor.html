@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - object oriented programming</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      /*
+      << 자바스크립트의 객체지향 >>
+      
+      프로토타입 기반 프로그래밍 (prototype-based programming) 
+      
+      연관되어있는 변수와 연관되어 있는 메소드를 하나의 객체라는 그릇에다 넣는것
+      연관되어있지 않는 것은 별도의 객체에다가 분리를 시켜놓는것. 
+      => 연관되어있는 것들을 그룹핑한다. 마치 디렉토리로 연관된 파일들을 그룹핑 하는것 처럼
+
+      */
+
+
+      /**** 생성자와 new ****/
+      
+      // 객체 내의 변수를 프로퍼티(property) 또는 속성, 프로퍼티에 담겨있는 함수를 메소드(method)
+      
+      var person = {}; // 빈 객체, 데이터를 담을 수 있는 비어있는 상자
+      person.name = 'egoing'; // 그릇 안에 name이라는 프로퍼티를 담고 변수의 내용은 문자열 egoing 
+      person.introduce = function(){
+        return 'My name is ' + this.name;
+      }
+      document.write(person.introduce());
+      
+      person = {
+        'name' : 'egoing',
+        'introduce' : function(){
+          return 'My name is ' + this.name;
+        }
+      }
+
+
+      /** 생성자 **/
+      function person(){}
+      var p0 = person();
+      p0 // 출력시 undefined
+
+      var p = new person(); 
+      p // 출력시 person{} -> 비어있는 객체
+
+      /*
+      new가 앞에 붙어있는 함수를 생성자라고 한다(객체생성자)
+      new person()에서 비어있는 객체를 만들어서 변수 p에 반환한다.
+      다른 언어와 달리 자바스크립트에서 생성자는 그냥 함수. 어디에도 소속되어 있지 않음
+      */
+
+
+      // person 객체를 여러개 만들 때,
+      function person(){};
+      var p1 = new person();
+      p1.name = 'egoing';
+      p1.introduce = function(){
+        return 'My name is' + this.name;
+      }
+      var p2 = new person();
+      p2.name = 'leechze';
+      p2.introduce = function(){
+        return 'My name is' + this.name;
+      }
+      // => introduce 속성에 담겨있는 메소드가 중복이 된다.
+
+      
+      function person(name){
+        this.name = name;
+        this.introduce = function(){
+          return 'My name is' + this.name;
+        }
+      }
+      // => 생성자가 하는 일 : 객체의 초기화(initialize) ===> 코드의 재사용성 ↑↑↑↑
+      
+      var p1 = new person('egoing'); // person()은 new가 붙음으로써 생성자가 됨
+      document.write(p1.introduce() + '<br>');
+      
+      // new person()으로 person()내의 코드를 모두 실행한 후 결과를 p1이라는 객체에 담음(반환)
+      // 
+
+      var p2 = new person('leezche');
+      document.write(p2.introduce() + '<br>');
+      
+    </script>
+  </div>
+</body>
+</html>
+

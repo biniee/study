@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - 클로저</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      function factory_movie(title){
+          return {
+              get_title : function (){ // 객체 안에 정의된 내부 함수 - 메소드
+                  return title;
+              },
+              set_title : function(_title){ // 객체 안에 정의된 내부 함수 - 메소드
+                  title = _title
+              }
+          }
+      }
+      ghost = factory_movie('Ghost in the shell');
+      matrix = factory_movie('Matrix');
+      
+      alert(ghost.get_title());
+      alert(matrix.get_title());
+      
+      ghost.set_title('공각기동대');
+      
+      alert(ghost.get_title());
+      alert(matrix.get_title());
+    </script>
+  </div>
+</body>
+</html>
+

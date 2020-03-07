@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li id="active">javaScript</li>
+      </ul>
+      <div>
+        <p id="box">box</p>
+      </div>
+      <script>
+        var li = document.getElementById('active');
+        console.log(li.constructor.name); // HTMLLIElement 출력 => li라는 단수 객체 리턴
+        var lis = document.getElementsByTagName('li');
+        console.log(lis.constructor.name); // HTMLCollection 출력 
+        // => 복수일 때 리턴. HTMLCollection은 유사배열. 여러개의 엘리먼트들을 담고있다. 
+
+        console.log(document.getElementById('box').constructor.name);
+      </script>
+    </div>
+    <footer class="footer"></footer>
+  </div>
+</body>
+</html>

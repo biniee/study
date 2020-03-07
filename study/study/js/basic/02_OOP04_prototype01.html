@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - object oriented programming</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      /* prototype : 원형(원래의 형태)
+         => prototype을 통해 상속이라는 개념을 제공      
+      */
+      
+      function Ultra(){}
+      Ultra.prototype.ultraProp = true;
+      
+      function Super(){}
+      Super.prototype = new Ultra(); // Ultra() 상속 받음
+      
+      function Sub(){}
+      Sub.prototype = new Super(); // Super() 상속 받음
+      
+      var o = new Sub();
+      console.log(o.ultraProp); // true 출력 => Ultra에 ultraProp가 true값을 가지고있음. 이것을 상속받은 Super에게 sub가 상속받아 값을 사용할 수 있다.
+
+      /*
+      
+      Sub.prototype => 객체의 원형이 저장되어 있는 프로퍼티
+      var o = new Sub(); => 생성자를 호출함으로써 prototype 프로퍼티에 저장되어 있는 객체를 꺼내서 변수 o에 리턴해준다.
+
+
+      ==> 이러한 개념을 prototype chain 이라고 한다.
+          prototype으로 서로가 서로와 연결되어 있는 관계
+
+      */
+    </script>
+  </div>
+</body>
+</html>
+

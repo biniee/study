@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript</title>
+  <script src="../../../js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+      <ul>
+        <li class="marked">HTML</li>
+        <li>CSS</li>
+        <li id="active">javaScript
+          <ul>
+            <li>javaScript Core</li>
+            <li class="marked">DOM</li>
+            <li class="marked">BOM</li>
+          </ul>
+        </li>
+      </ul>
+      <script>
+        /*
+        조회 API
+        
+        document.getElementsBy*
+        => 문서 전체에서 어떠한 엘리먼트를 찾을 때 document객체의 메소드인 getElementsBy*를 사용하는것
+        => 일부 객체 내에서 엘리먼트를 찾을때는 객체.getElementsBy* 를 사용해 찾을 수 있다.
+        
+        */
+        
+        var list = document.getElementsByClassName('marked');
+        console.group('document');
+        for(var i=0; i<list.length; i++){
+          console.log(list[i].textContent); // textContent : element가 가지고 있는 텍스트를 나타냄 
+        }
+        console.groupEnd();
+
+        var active = document.getElementById('active');
+        var list = active.getElementsByClassName('marked');
+        console.group('active');
+        for(var i=0; i<list.length; i++){
+          console.log(list[i].textContent);
+        }
+        console.groupEnd();
+
+      </script>
+    </div>
+    <footer class="footer"></footer>
+  </div>
+  
+</body>
+</html>

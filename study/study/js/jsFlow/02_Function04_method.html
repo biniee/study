@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>javaScript Flow</title>
+</head>
+<body>
+  <div class="wrap">
+    <div class="container">
+      <script>
+        /* 
+        < 메소드 >
+        함수와 메소드의 차이점은, 메소드는 this를 바인딩한다(함수는x).
+        */
+        var obj = {
+          a: 1,
+          b: function bb(){
+            console.log(this);
+          },
+          c: function(){
+            console.log(this.a);
+          }
+        }
+          
+        obj.b();
+        obj.c();
+        
+        console.dir(obj.b); // console.dir은 객체의 속성을 보여줌
+        console.dir(obj.c);
+
+        /*
+        0. 전역 실행컨텍스트 생성 (스코프:global)
+        1. 변수 obj 선언
+        2. 객체생성, 변수obj에 객체 주소값 할당
+        3. obj.b 메소드 호출 -> obj.b의 function bb의 실행컨텍스트 생성
+        4. this에 obj 바인딩 
+        5. this 출력 (obj.b를 호출할 때 메소드 .앞에 객체가 this가 됨)
+        6. obj.c 메소드 호출 -> obj.c의 function 실행컨텍스트 생성
+        7. this에 obj바인딩
+        8. this.a 출력 -> 1 출력
+        9. console 실행 
+        */
+      </script>
+    </div>
+  </div>
+</body>
+</html>

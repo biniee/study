@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript</title>
+  <script src="../../../js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+      <a id="target" href="http://opentutorials.org">opentutorials</a>
+      <script>
+        /*
+        jQuery API
+
+        제이쿼리에서 
+        setAttribute, getAttribute에 대응되는 메소드는 attr
+        removeAttribute에 대응되는 메소드는 removeAttr
+        편의를 위한 축약 형태    
+        
+        */
+
+        var t = $('#target');
+        console.log(t.attr('href'));
+        t.attr('title','opentutorials.org');
+        t.removeAttr('title');
+        
+      </script>
+    </div>
+    <footer class="footer"></footer>
+  </div>
+  
+</body>
+</html>

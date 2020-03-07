@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>study javaScript - 값으로서의 함수</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+    </div>
+    <script>
+      /*
+        콜백 : 함수가 수신하는 인자가 함수인 경우
+      */
+
+      var numbers = [20,10,9,8,7,6,5,4,3,2,1];
+      var sortfunc = function (a, b){
+        return a - b; // 오름차순 
+        /*
+        a 가 b보다 작을 경우 : -값
+        두 값이 같을 경우 : 0
+        a가 b보다 클 경우 : +값
+        */
+      }
+      console.log(numbers.sort(sortfunc) /*객체.메소드()*/ ); 
+      //sort() : 언어에서 기본적으로 제공하는 내장 객체, 내장 메소드 <-> 사용자 정의 함수, 사용자 정의 객체
+
+      /*
+      => sortfunc 함수는 콜백함수
+         값으로서 함수를 사용할 수 있기때문에 sort() 메소드의 동작을 조작할 수 있다.
+         콜백이 가능한 것은 자바스크립트의 함수가 값이기 때문에 가능하다.
+      */
+    </script>
+  </div>
+</body>
+</html>
+
