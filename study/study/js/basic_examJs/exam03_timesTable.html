@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="header"></header>
+    <div class="container">
+
+    </div>
+    <script>
+      while(true){
+        var fstNum = Math.floor(Math.random()*9) + 1;
+        var secNum = Math.floor(Math.random()*9) + 1;
+        var result = fstNum * secNum;
+        var answer = prompt(String(fstNum)+' X '+String(secNum)+' = ?');
+        if(Number(answer) === result){
+          alert('딩동댕');
+        }else {
+          if(Number(answer) === 0){
+            break;
+          }
+          alert('땡');
+        }
+      }
+
+    </script>
+    <footer class="footer"></footer>
+  </div>
+</body>
+</html>
