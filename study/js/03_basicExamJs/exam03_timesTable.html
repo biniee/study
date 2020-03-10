@@ -15,37 +15,46 @@
   <script>
     var container = document.getElementById('container'),
         exercise = document.createElement('div'),
-        fstNum = Math.ceil(Math.random()*9),
-        secNum = Math.ceil(Math.random()*9),
-        calculate = fstNum*secNum;
+        fstNum,
+        secNum,
+        calculate,
+        form = document.createElement('form'),
+        answer = document.createElement('input'),
+        submit = document.createElement('button'),
+        result = document.createElement('div');
 
         /* 
         Math.floor - 숫자 내림 함수 
         Math.ceil - 숫자 올림 함수
         */
 
-    exercise.append(String(fstNum)+' X '+String(secNum)+' = ?');
+    window.onload = timeTableQuiz();
+
     container.append(exercise);
-
-    var answer = document.createElement('input');
-    container.append(answer);
-
-    var submit = document.createElement('button');
+    container.append(form);
+    form.append(answer);
     submit.textContent = '확인!';
-    container.append(submit);
-
-    var result = document.createElement('div');
+    form.append(submit);
     container.append(result);
 
-    submit.addEventListener('click',function(){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
       if( Number(answer.value) === calculate ){
-        result.textContent = '딩동댕'; 
+        result.textContent = '딩동댕';
+        timeTableQuiz();
       }else{
         result.textContent = '땡'; 
       }
       answer.value = '';
       answer.focus();
-    })
+    });
+
+    function timeTableQuiz(){
+      fstNum = Math.ceil(Math.random()*9);
+      secNum = Math.ceil(Math.random()*9);
+      calculate = fstNum*secNum;
+      exercise.textContent = String(fstNum)+' X '+String(secNum)+' = ?';      
+    }
 
 
     
