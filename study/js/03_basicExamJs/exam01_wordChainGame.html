@@ -7,25 +7,64 @@
 </head>
 
 <body>
-  <div class="wrap">
-    <header class="header"></header>
-    <div class="container">
+  <div id="wrap">
 
-    </div>
-    <script>
-      for(var word = '호두';true;){
-        var answer = prompt(word);
-        console.log('answer : '+answer);
-        if(word[word.length-1] === answer[0]){
-          alert('딩동댕');
-          word = answer;
-        }else{
-          alert('땡');
-        }
-      }
-      
-    </script>
-    <footer class="footer"></footer>
+
   </div>
+  <script>
+    var container = document.getElementById('wrap');
+    var word = document.createElement('p');
+    word.classList.add('word');
+    word.textContent = '호두';
+    container.appendChild(word);
+    var form = document.createElement('form');
+    container.append(form);
+    var answer = document.createElement('input');
+    form.appendChild(answer);
+    var submit = document.createElement('button');
+    submit.textContent = '완료!';
+    form.appendChild(submit);
+    submit.style.marginLeft = '5px';
+    submit.style.background = 'none';
+    submit.style.border = '1px solid #888';
+    var result = document.createElement('p');
+    container.appendChild(result);
+
+    form.addEventListener('submit', function callback (e){
+      e.preventDefault(); // 기본동작을 바꾸고싶을 때
+      if(word.textContent[word.textContent.length-1] === answer.value[0]){
+        result.textContent = '딩동댕';
+        word.textContent = answer.value;
+      }else{
+        result.textContent = '땡';
+      }
+      answer.value ="";
+      answer.focus();
+    })
+  </script>
+  <script>
+    /*var container = document.getElementById('wrap');
+    var word = document.createElement('div');
+    word.textContent = '제로초';
+    container.append(word);
+    var inputbox = document.createElement('input');
+    container.append(inputbox);
+    var btn = document.createElement('button');
+    btn.textContent = '입력!';
+    container.append(btn);
+    var result = document.createElement('div');
+    container.append(result);
+
+    btn.addEventListener('click', function(){ // 콜백함수, 익명함수
+      if(word.textContent[word.textContent.length-1] === inputbox.value[0]){
+        result.textContent = '딩동댕';
+        word.textContent = inputbox.value;
+      }else{
+        result.textContent = '땡';
+      }
+
+    }); */
+
+  </script>
 </body>
 </html>

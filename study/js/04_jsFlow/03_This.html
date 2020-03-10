@@ -44,6 +44,7 @@
           }
         }
         a.b(); // a 출력
+
         var a = {
           b: {
             c: function(){
@@ -52,10 +53,47 @@
           }
         }
         a.b.c(); // b 출력
+
+        // *함수는 전역객체의 메소드다. 앞에 있는게 this, 없으면 전역객체가 this
+
         
         
+        /* 내부함수에서의 우회법 */
 
+        var a = 10;
+        var obj = {
+          a: 20,
+          b: function(){
+            console.log(this.a); // 20 출력 
+            function c(){
+              console.log(this.a); // 10 출력
+            }
+            c();
+          }
+        }
+        obj.b();
+        // => b는 메소드이지만, c는 함수이기 때문
 
+        // 스코프체인
+        var a = 10;
+        var obj = {
+          a: 20,
+          b: function(){
+            var self = this; // 셀프라는 변수 사용
+            console.log(this.a);
+
+            function c(){
+              console.log(self.a);
+            }
+            c();
+          }
+        }
+        obj.b();
+
+        // 4. callback에서의 this => 기본적으로는 함수 내부에서와 동일 
+
+        /* call, apply, bind 메소드 */
+        
       </script>
     </div>
   </div>
