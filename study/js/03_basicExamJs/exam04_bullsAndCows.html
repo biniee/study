@@ -12,46 +12,86 @@
     </div>
     <script>
       var container = document.getElementById('container'),
-
-          numList = [1,2,3,4,5,6,7,8,9];
-          numArr = [];
-          result = document.createElement('h1'),
+          result = document.createElement('h1');
           form = document.createElement('form'),
-          inputbox = document.createElement('input'),
-          submit = document.createElement('button');
-      
+          inputBox = document.createElement('input'),
+          submit = document.createElement('button'),
+          rounds = document.createElement('p');
+          count = 10,
+          listNum = [],
+          pickNum = [];
+
       container.append(result);
       container.append(form);
-      form.append(inputbox);
+      form.append(inputBox);
       form.append(submit);
+      container.append(rounds);
+      result.textContent = '숫자야구 시작';
       submit.textContent = '입력';
-      inputbox.maxLength = 4;
+      rounds.textContent = '남은 횟수 : '+count;
 
-      for(var i=0;i<4;i++){
-        var pickNum = numList.splice(Math.floor(Math.random()*(9-i)), 1)[0];
-        numArr.push(pickNum);
+      createBulls();
+
+      form.addEventListener('submit',function(e){
+        e.preventDefault();        
+        if(count <= 0){
+          rounds.textContent = '실패';
+        }else{
+          bullsAndCows();
+        }
+      });
+
+      function createBulls(){
+        listNum = [1,2,3,4,5,6,7,8,9];
+        pickNum = [];
+        for(var i=0;i<4;i++){
+          var pick = listNum.splice(Math.floor(Math.random()*(9-i)), 1)[0];
+          pickNum.push(pick);
+        }
+        console.log('pick num list : '+pickNum);
       }
-      /*
-      var pickNum = numList.pop();
-      numArr.push(pickNum);
 
-      splice(n,m) : n번째 부터 m개를 뽑아 배열로 반환
-                    배열 내 값을 가져오고 싶을 경우 splice()[1]; 
+      function bullsAndCows(){
+        var answer = inputBox.value;
+        // 답이 맞으면,
+        if(answer===pickNum.join('')){
+          result.textContent = '홈런!';
+          inputBox.value='';
+          inputBox.focus();
+          createBulls();
+          count = 0;
+        }else{ // 틀렸으면,
+          var ansArr = answer.split('');
+          var ball   = 0,
+              strike = 0;
+          console.log('answer arr : '+ansArr);
+          for(var i=0;i<=ansArr.length;i++){
+            if(Number(ansArr[i]) === pickNum[i]){
+              strike += 1;
+            }else if(pickNum.indexOf(Number(ansArr[i])) > -1){
+              ball += 1;
+            }
+          }
+          count -= 1;
+          result.textContent = strike + '스트라이크 ' + ball + '볼';
+          rounds.textContent = '남은 횟수 : ' + count;
+        }
+      }
       
-      push() : 마지막에 추가
-      pop() : 마지막꺼 뽑기
-      shift() : 처음꺼 뽑기
-      unshift() : 처음에 추가
-      */
-     console.log(numArr);
+      /*
+      pop : 뒤에서부터 뽑음
+      shift : 앞에서부터 뽑음
+      
+      push : 앞에서부터 넣음
+      unshift : 뒤에서부터 넣음
 
-     form.addEventListener('submit',function(e){
-       e.preventDefault();
-       console.log(inputbox.value);
-       if( inputbox.value === numArr){
-         console.log('yehhh~');
-       }
-     })
+      => pop/push로 숫자를 뽑으면 listNum 배열에서는 사라진다.
+
+      Math.ceil()  : 올림 정수
+      Math.floor() : 내림 정수
+
+      indexOf(i) : i가 배열의 몇번 째에 있는지 찾는 메소드 해당 index 반환, 없으면 -1 반환 
+      */
     </script>
   </div>
 </body>
