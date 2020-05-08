@@ -13,7 +13,7 @@
 </head>
 <body>
   <div class="wrap">
-    <div id="container">
+    <!-- <div id="container">
       <table>
         <tbody>
           <tr>
@@ -33,21 +33,23 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
   <script>
     var body = document.body,
         table = document.createElement('table'),
-        lineArr = [],
-        blockArr = [],
-        callbackfunc = function(){
-
-        };
-    for(var i=0;i<=0;i++){
+        blockArr = [];
+    for(var i=1;i<=3;i++){
       var line = document.createElement('tr');
-      lineArr.push(line);
-      
-    }    
+      blockArr.push([]);
+      for(var j=1;j<=3;j++){
+        var block = document.createElement('td');
+        line.appendChild(block);
+      }
+      table.appendChild(line);
+    }
+    body.appendChild(table);
+    console.log(blockArr); 
   </script>
 </body>
 </html>
