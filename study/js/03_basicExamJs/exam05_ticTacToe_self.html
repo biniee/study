@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <style>
+    html,body{height:100%;background-color: lightblue;}
+    #container{width:260px;margin:0 auto;padding-top:310px;}
+    table{border-collapse:collapse;}
+    table td{width:75px;height:75px;font-size:35px;font-weight:bold;color:rgb(27, 109, 136);border:5px solid rgb(124, 171, 187);text-align:center;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+    </div>
+  </div>
+  <script>
+    var container = document.getElementById('container'),
+        table = document.createElement('table'),
+        lineArr = [],
+        blockArr = [],
+        blockFunc = function(e){
+          console.log(e.target);
+          console.log(e.target.parentNode);
+
+          var lineNum = lineArr.indexOf(e.target.parentNode);
+          var blockNum = blockArr[lineNum].indexOf(e.target);
+        };
+    container.append(table);
+
+    for(var i=0;i<3;i++){
+      var line = document.createElement('tr');
+      lineArr.push(line);
+      blockArr.push([]);
+      for(var j=0;j<3;j++){
+        var block = document.createElement('td');
+        blockArr[i].push(block);
+        block.addEventListener('click', blockFunc);
+        line.append(block); 
+      }
+      table.append(line);
+    }
+    console.log(lineArr, blockArr);
+
+    /*
+    var blockArr = [
+      [1,2,3],
+      [4,5,6],
+      [7,8,9],
+    ]
+    */
+  </script>
+</body>
+</html>

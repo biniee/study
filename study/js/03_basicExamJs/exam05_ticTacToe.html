@@ -8,13 +8,13 @@
     html,body{height:100%;background-color: lightblue;}
     #container{width:260px;margin:0 auto;padding-top:310px;}
     table{border-collapse:collapse;}
-    table td{width:75px;height:75px;border:5px solid rgb(124, 171, 187);}
+    table td{width:75px;height:75px;font-size:35px;font-weight:bold;color:rgb(27, 109, 136);border:5px solid rgb(124, 171, 187);text-align:center;}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- <div id="container">
-      <table>
+    <div id="container">
+      <!-- <table>
         <tbody>
           <tr>
             <td></td>
@@ -32,24 +32,50 @@
             <td></td>
           </tr>
         </tbody>
-      </table>
-    </div> -->
+      </table> -->
+    </div>
   </div>
   <script>
-    var body = document.body,
+    var container = document.getElementById('container'),
         table = document.createElement('table'),
-        blockArr = [];
+        lineArr = [],
+        blockArr = [],
+        turn = 'X';
+        callbackFunc = function(e){
+          console.log(e.target);  //칸
+          console.log(e.target.parentNode); //줄
+          console.log(e.target.parentNode.parentNode); //테이블
+
+          var lineNum = lineArr.indexOf(e.target.parentNode);
+          var blockNum = blockArr[lineNum].indexOf(e.target);
+          console.log(lineNum,'번째 줄', blockNum,'번째 칸');
+
+          if(blockArr[lineNum][blockNum].textContent !== ''){
+            console.log('빈칸이 아닙니다.');
+          }else{
+            console.log('빈칸입니다.');
+            blockArr[lineNum][blockNum].textContent = turn;
+            if(turn === 'X'){
+              turn = 'O';
+            }else{
+              turn = 'X';
+            }
+          }
+        };
     for(var i=1;i<=3;i++){
       var line = document.createElement('tr');
+      lineArr.push(line);
       blockArr.push([]);
       for(var j=1;j<=3;j++){
         var block = document.createElement('td');
+        block.addEventListener('click',callbackFunc);
+        blockArr[i-1].push(block);
         line.appendChild(block);
       }
       table.appendChild(line);
     }
-    body.appendChild(table);
-    console.log(blockArr); 
+    container.appendChild(table);
+    console.log('line :',lineArr, 'block : ',blockArr);
   </script>
 </body>
 </html>
