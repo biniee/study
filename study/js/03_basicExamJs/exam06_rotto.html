@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <style>
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+      <div id="result"></div>
+      <div class="wrap_bonus"></div>
+    </div>
+  </div>
+  <script>
+    
+    var resultArea = document.getElementById('result'),
+        bonusArea = document.getElementsByClassName('wrap_bonus')[0],
+        shuffle = [],
+        rottoNum = shuffle.slice(0, 6).sort(function(p,c){return p-c}),
+        bonusBall = document.createElement('div'),
+        // [ sort ] p: 이전 숫자, c: 현재 숫자. 두 값을 뺀 결과가 0보다 크면 순서 바꾸면서 정렬하는 방식  
+        list = Array(45).fill().map(function(i, index){
+          return index + 1;      
+        })
+    console.log('list : ',list);
+
+    while(list.length>0){
+      var move = list.splice(Math.floor(Math.random() * list.length),1)[0] //45개 중에 랜덤한 정수 뽑기
+      shuffle.push(move);
+    }
+    var bonus = shuffle[shuffle.length-1];
+    console.log('suhffle :',shuffle);
+    console.log('rotto number : ',rottoNum,'bonus : ',bonus);
+    for(var i=0;i<rottoNum.length;i++){
+      var resultBall = document.createElement('div');
+      resultBall.textContent = rottoNum[i];
+      resultArea.appendChild(resultBall);
+    }
+    bonusBall.textContent = 'bonus : '+bonus;
+    bonusArea.appendChild(bonusBall);
+
+  </script>
+</body>
+</html>
