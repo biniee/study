@@ -21,12 +21,23 @@
         table = document.createElement('table'),
         lineArr = [],
         blockArr = [],
+        turn = 'X',
         blockFunc = function(e){
           console.log(e.target);
           console.log(e.target.parentNode);
 
           var lineNum = lineArr.indexOf(e.target.parentNode);
           var blockNum = blockArr[lineNum].indexOf(e.target);
+          console.log(lineNum, blockNum);
+          if( blockArr[lineNum][blockNum].textContent === '' ){
+            console.log('빈칸');
+            blockArr[lineNum][blockNum].textContent = turn;
+            if(turn === 'X'){
+              turn = 'O';
+            }else {
+              turn = 'X';
+            }
+          }
         };
     container.append(table);
 
