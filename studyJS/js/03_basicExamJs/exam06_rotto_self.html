@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <style>
+    span{display: inline-block;padding:0 3px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+      <div id="result"></div>
+      <div class="box_bonus"></div>
+    </div>
+  </div>
+  <script>
+    var container = document.getElementById('container'),
+        result = document.getElementById('result'),
+        bonusArea = document.getElementsByClassName('box_bonus')[0],
+        shuffle = [],
+        list = Array(45).fill().map(function(i,index){
+          return index + 1;      
+        })
+    console.log(list);
+
+    while(list.length > 0){
+      var move = list.splice(Math.floor(Math.random()*list.length), 1)[0];
+      shuffle.push(move);
+    }
+    var bonus = shuffle.pop();
+    shuffle = shuffle.slice(0,6).sort(function(p,c){return p-c});
+    console.log(shuffle, bonus);
+    
+    for(var i=0;i<shuffle.length;i++){
+      var ball = document.createElement('span');
+      ball.textContent = shuffle[i];
+      result.appendChild(ball);
+    }
+    var bonusBall = document.createElement('span');
+    bonusBall.textContent = bonus;
+    bonusArea.appendChild(bonusBall);
+    
+  </script>
+</body>
+</html>
