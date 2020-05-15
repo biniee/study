@@ -5,16 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
   <title>exam</title>
   <style>
-
+    #computer{width:136px;height:154px;background:url('../../img/customLogo.gif');}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div id="container">
+      <div id="computer"></div>
+      <div>
+        <button id="scissor" class="btn">가위</button>
+        <button id="rock" class="btn">바위</button>
+        <button id="paper" class="btn">보</button>
+      </div>
     </div>
   </div>
   <script>
-    
+    /*
+    0px
+    -136px
+    -280px , width:156px
+    */
+    var computer = document.querySelector('#computer');
+    var left = '0',
+        width = '136px';
+    var RSP = {
+      rock : '0',
+      scissor : '-136px',
+      paper : '-280px'
+    };
+    setInterval(function(){
+      if(left === RSP.rock){
+        left = RSP.scissor;
+      }else if( left === RSP.scissor ){
+        left = RSP.paper;
+        width = '156px';
+      }else{
+        left = RSP.rock;
+        width = '136px';
+      }
+      computer.style.backgroundPosition = left + ' 0';
+      computer.style.width = width;
+    }, 150);
+
+    document.querySelectorAll('.btn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        console.log(this.textContent);
+      });
+    });
+
   </script>
 </body>
 </html>
