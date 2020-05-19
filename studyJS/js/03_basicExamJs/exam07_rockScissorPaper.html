@@ -26,30 +26,46 @@
     -280px , width:156px
     */
     var computer = document.querySelector('#computer');
-    var left = '0',
+    var coordinate = '0',
         width = '136px';
     var RSP = {
-      rock : '0',
-      scissor : '-136px',
-      paper : '-280px'
+      바위 : '0',
+      가위 : '-136px',
+      보 : '-280px'
     };
+
+    function selectCom(coordinate){
+      return Object.entries(RSP).find(function(v){
+        return v[1] === coordinate;
+      })[0];
+    }
+    /*
+    Object.entries() : 객체를 2차원 배열로 변환해줌
+
+    find는 반복문, 원하는 것을 찾으면 멈춤
+    findIndex : 배열에서 해당 인덱스를 반환
+    */
+    
     setInterval(function(){
-      if(left === RSP.rock){
-        left = RSP.scissor;
-      }else if( left === RSP.scissor ){
-        left = RSP.paper;
+      if(coordinate === RSP.바위){
+        coordinate = RSP.가위;
+      }else if( coordinate === RSP.가위 ){
+        coordinate = RSP.보;
         width = '156px';
       }else{
-        left = RSP.rock;
-        width = '136px';
+        coordinate = RSP.바위;
+        width = '136px';0
       }
-      computer.style.backgroundPosition = left + ' 0';
+      computer.style.backgroundPosition = coordinate + ' 0';
       computer.style.width = width;
     }, 150);
 
     document.querySelectorAll('.btn').forEach(function(btn){
       btn.addEventListener('click',function(){
-        console.log(this.textContent);
+        console.log(this.textContent, selectCom(coordinate));
+        if( this.textContent === '가위'){
+
+        }
       });
     });
 
