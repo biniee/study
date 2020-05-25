@@ -20,19 +20,20 @@
     </div>
   </div>
   <script>
-    /*
-    0px
-    -136px
-    -280px , width:156px
-    */
-    var computer = document.querySelector('#computer');
-    var coordinate = '0',
-        width = '136px';
-    var RSP = {
-      바위 : '0',
-      가위 : '-136px',
-      보 : '-280px'
-    };
+    var computer = document.querySelector('#computer'),
+        interval,
+        coordinate = '0',
+        width = '136px',
+        RSP = {
+          바위 : '0',
+          가위 : '-136px',
+          보 : '-280px'
+        },
+        score = {
+          가위 : 1,
+          바위 : 0,
+          보 : -1,
+        };
 
     function selectCom(coordinate){
       return Object.entries(RSP).find(function(v){
@@ -45,29 +46,76 @@
     find는 반복문, 원하는 것을 찾으면 멈춤
     findIndex : 배열에서 해당 인덱스를 반환
     */
-    
-    setInterval(function(){
-      if(coordinate === RSP.바위){
-        coordinate = RSP.가위;
-      }else if( coordinate === RSP.가위 ){
-        coordinate = RSP.보;
-        width = '156px';
-      }else{
-        coordinate = RSP.바위;
-        width = '136px';0
-      }
-      computer.style.backgroundPosition = coordinate + ' 0';
-      computer.style.width = width;
-    }, 150);
+    function intervalMaker(){
+      interval = setInterval(function(){
+        if(coordinate === RSP.바위){
+          coordinate = RSP.가위;
+        }else if( coordinate === RSP.가위 ){
+          coordinate = RSP.보;
+          width = '156px';
+        }else{
+          coordinate = RSP.바위;
+          width = '136px';0
+        }
+        computer.style.backgroundPosition = coordinate + ' 0';
+        computer.style.width = width;
+      }, 150);
+    }
+
+    intervalMaker();
 
     document.querySelectorAll('.btn').forEach(function(btn){
       btn.addEventListener('click',function(){
-        console.log(this.textContent, selectCom(coordinate));
-        if( this.textContent === '가위'){
-
+        var choice = this.textContent;
+        clearInterval(interval);
+        setTimeout(function(){
+          intervalMaker();
+        }, 1500);
+        console.log(score[choice] - selectCom(coordinate));
+        if(score[choice] - selectCom(coordinate) === 0){
+          console.log('비겼습니다.');
+        }else if(score[choice] - selectCom(coordinate) === -1 || score[choice] - selectCom(coordinate) === 2){
+          console.log('이겼습니다.');
+        }else{
+          console.log('졌습니다.');
         }
+        //  if( choice === '가위'){
+        //    if( selectCom(coordinate) === '가위'){
+        //      console.log('비겼습니다.');
+        //    }else if( selectCom(coordinate) === '바위' ){
+        //      console.log('졌습니다.');
+        //    }else{
+        //      console.log('이겼습니다.')
+        //    }
+        //  }else if( choice === '바위'){
+        //    if( selectCom(coordinate) === '가위'){
+        //      console.log('이겼습니다.');
+        //    }else if( selectCom(coordinate) === '바위' ){
+        //      console.log('비겼습니다.');
+        //    }else{
+        //      console.log('졌습니다.')
+        //    }
+        //  }if( choice === '보'){
+        //    if( selectCom(coordinate) === '가위'){
+        //      console.log('졌습니다.');
+        //    }else if( selectCom(coordinate) === '바위' ){
+        //      console.log('이겼습니다.');
+        //    }else{
+        //      console.log('비겼습니다.')
+        //    }
+        //  }
       });
     });
+
+    /*
+    가위 1, 바위 0, 보 -1
+
+    나 \ 컴퓨터  가위  바위  보
+          가위   1,1  1,0   1,-1
+          바위   0,1  0,0   0,-1
+            보  -1,1  -1,0  -1,-1
+   
+    */
 
   </script>
 </body>
