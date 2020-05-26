@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <style>
+    html,body{height:100%;margin:0;padding:0;}
+    .wrap{position:relative;height:100%;text-align:center;}
+    .container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+    #computer{position:relative;width:136px;height:154px;margin:0 auto 10px;background:url('../../img/customLogo.gif');}
+    .result{display:none;position:absolute;width:100%;top:50%;left:50%;transform:translate(-50%,-50%);background:rgb(0, 183, 255, 0.5);font-size:28px;font-weight:bold;}
+    .btn{width:50px;height:52px;margin:0 4px;text-indent:-9999px;background:url('../../img/customLogo.gif') 100%;background-size:cover;outline:none;}
+    #scissor{background-position: -41px 0px;}
+    #rock{width:48px;background-position: 2px 0px;}
+    #paper{background-position: -87px 0px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="container">
+      <div id="computer"><div class="result">Win!</div></div>
+      <div>
+        <button id="scissor" class="btn">가위</button>
+        <button id="rock" class="btn">바위</button>
+        <button id="paper" class="btn">보</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    var com = document.getElementById('computer'),
+        result = document.querySelector('.result'),
+        interval,
+        width = '142px',
+        coordinate = 0,
+        RSP = {
+              바위 : '0',
+              가위 : '-142px',
+              보 : '-280px',
+            },
+        score = {
+          가위 : 1,
+          바위 : 0,
+          보 : -1,
+        };
+
+    function intervalMaker(){
+      interval = setInterval(function(){
+        if( coordinate === RSP.바위 ){
+          coordinate = RSP.가위;
+          width = '136px';
+        }else if(coordinate === RSP.가위 ){
+          coordinate = RSP.보;
+          width = '156px';
+        }else{
+          coordinate = RSP.바위;
+        }
+        com.style.backgroundPosition = coordinate +', 0';
+        com.style.width = width;
+      }, 100);
+    }
+    function selectCom(coordinate){
+      return Object.entries(RSP).find(function(v){
+        return v[1] === coordinate;
+      })[0];
+    };
+    function resultText(text){
+      result.textContent = text;
+      result.style.display = 'block';
+    }
+
+    intervalMaker();
+
+    document.querySelectorAll('.btn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        clearInterval(interval);
+        setTimeout(function(){
+          intervalMaker();
+          result.style.display = 'none';
+        }, 2000);
+        var resultScore = score[this.textContent] - score[selectCom(coordinate)];
+        if( [-1,2].includes(resultScore) ){
+          resultText('Win!');
+        }else if(resultScore === 0){
+          resultText('Draw');
+        }else{
+          resultText('Lose T_T');
+        }
+      });
+    })
+  </script>
+</body>
+</html>
