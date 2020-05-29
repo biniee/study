@@ -7,10 +7,11 @@
   <style>
     h1{margin-top:50px;text-align:center;font-size:28px;}
     a{color:#333;}
-    .nav{width:1000px;margin:40px auto;padding:0 20px;box-sizing:border-box;}
+    .nav{max-width:1000px;margin:40px auto;padding:0 20px;box-sizing:border-box;}
     .nav_inner{position:relative;padding:16px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
     .nav .item{display:inline-block;margin:0 24px;font-size:18px;}
-    .sub{display:none;position:absolute;width:100%;top:58px;left:0;padding:20px;border-bottom:1px solid #ddd;}
+    .sub{display:none;position:absolute;width:100%;top:58px;left:0;padding:20px;border-bottom:1px solid #ddd;box-sizing:border-box;}
+    .sub.on{display:block;}
     .sub_item{margin:4px 0;}
   </style>
 </head>
@@ -24,61 +25,57 @@
             <li class="item">
               <a href="">NAVI01</a>
               <ul class="sub">
-                <li class="sub_item">SUB01</li>
-                <li class="sub_item">SUB02</li>
-                <li class="sub_item">SUB03</li>
-                <li class="sub_item">SUB04</li>
-                <li class="sub_item">SUB05</li>
+                <li class="sub_item">01_SUB01</li>
+                <li class="sub_item">01_SUB02</li>
+                <li class="sub_item">01_SUB03</li>
+                <li class="sub_item">01_SUB04</li>
+                <li class="sub_item">01_SUB05</li>
               </ul>
             </li>
             <li class="item">
               <a href="">NAVI02</a>
               <ul class="sub">
-                <li class="sub_item">SUB01</li>
-                <li class="sub_item">SUB02</li>
-                <li class="sub_item">SUB03</li>
-                <li class="sub_item">SUB04</li>
-                <li class="sub_item">SUB05</li>
+                <li class="sub_item">02_SUB01</li>
+                <li class="sub_item">02_SUB02</li>
+                <li class="sub_item">02_SUB03</li>
+                <li class="sub_item">02_SUB04</li>
               </ul>
             </li>
             <li class="item">
               <a href="">NAVI03</a>
               <ul class="sub">
-                <li class="sub_item">SUB01</li>
-                <li class="sub_item">SUB02</li>
-                <li class="sub_item">SUB03</li>
-                <li class="sub_item">SUB04</li>
-                <li class="sub_item">SUB05</li>
+                <li class="sub_item">03_SUB01</li>
+                <li class="sub_item">03_SUB02</li>
+                <li class="sub_item">03_SUB03</li>
+                <li class="sub_item">03_SUB04</li>
+                <li class="sub_item">03_SUB05</li>
               </ul>
             </li>
             <li class="item">
               <a href="">NAVI04</a>
               <ul class="sub">
-                <li class="sub_item">SUB01</li>
-                <li class="sub_item">SUB02</li>
-                <li class="sub_item">SUB03</li>
-                <li class="sub_item">SUB04</li>
-                <li class="sub_item">SUB05</li>
+                <li class="sub_item">04_SUB01</li>
+                <li class="sub_item">04_SUB02</li>
+                <li class="sub_item">04_SUB03</li>
               </ul>
             </li>
             <li class="item">
               <a href="">NAVI05</a>
               <ul class="sub">
-                <li class="sub_item">SUB01</li>
-                <li class="sub_item">SUB02</li>
-                <li class="sub_item">SUB03</li>
-                <li class="sub_item">SUB04</li>
-                <li class="sub_item">SUB05</li>
+                <li class="sub_item">05_SUB01</li>
+                <li class="sub_item">05_SUB02</li>
+                <li class="sub_item">05_SUB03</li>
+                <li class="sub_item">05_SUB04</li>
               </ul>
             </li>
             <li class="item">
               <a href="">NAVI06</a>
               <ul class="sub">
-                <li class="sub_item">SUB01</li>
-                <li class="sub_item">SUB02</li>
-                <li class="sub_item">SUB03</li>
-                <li class="sub_item">SUB04</li>
-                <li class="sub_item">SUB05</li>
+                <li class="sub_item">06_SUB01</li>
+                <li class="sub_item">06_SUB02</li>
+                <li class="sub_item">06_SUB03</li>
+                <li class="sub_item">06_SUB04</li>
+                <li class="sub_item">06_SUB05</li>
               </ul>
             </li>
           </ul>  
@@ -87,9 +84,18 @@
     </header>
   </div>
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
   <script>
-    
+    document.querySelectorAll('.item a').forEach(function(btn){
+      btn.addEventListener('click',function(e){
+        e.preventDefault();
+        var thsub = this.nextSibling.nextSibling;
+        document.querySelectorAll('.sub').forEach(function(subList){
+          subList.classList.remove('on');
+        })
+        thsub.classList.add('on');
+
+      });
+    })
   </script>
 </body>
 </html>
