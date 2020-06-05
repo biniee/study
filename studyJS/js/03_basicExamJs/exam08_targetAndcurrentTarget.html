@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <style>
+    table{margin-top:30px;border-collapse:collapse;text-align:center;}
+    tbody td{width:20px;height:20px;border:1px solid #111;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+      <input type="number" id="hor" placeholder="가로" value="10">
+      <input type="number" id="ver" placeholder="세로" value="10">
+      <input type="number" id="mine" placeholder="지뢰" value="20">
+      <button id="exec">실행</button>
+      <table id="table">
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    var dataset = [],
+        tbody = document.querySelector('#table tbody');
+    document.querySelector('#exec').addEventListener('click',function(){
+      var hor = parseInt(document.querySelector('#hor').value),
+          ver = parseInt(document.querySelector('#ver').value),
+          mine = parseInt(document.querySelector('#mine').value),
+          mineList = Array(hor*ver).fill().map(function(i, index){
+            return index;
+          }),
+          shuffle = [];
+
+      // 지뢰 테이블 만들기
+      for(var i=0;i<ver;i++){
+        var arr = [],
+            tr = document.createElement('tr');
+        dataset.push(arr);
+        for(var j=0;j<hor;j++){
+          arr.push(1);
+          var td = document.createElement('td');
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+
+      /*          target & currentTarget          */
+      tbody.addEventListener('contextmenu',function(e){
+        console.log('currentTarget : ', e.currentTarget);   // tbody
+        console.log('target : ', e.target);                 // td
+      });
+      /*
+      
+      currentTarget : 이벤트리스너가 달린 애
+      target : 실제 이벤트가 발생한 애
+
+      */
+    });
+  </script>
+</body>
+</html>

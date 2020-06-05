@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam</title>
+  <style>
+    table{border-collapse:collapse;text-align:center;}
+    td{width:20px;height:20px;border:1px solid #111;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+      <input type="number" id="hor" placeholder="가로" value="10">
+      <input type="number" id="ver" placeholder="세로" value="10">
+      <input type="number" id="mine" placeholder="지뢰" value="20">
+      <button id="exec">실행</button>
+      <table id="table">
+        <thead>
+          <tr>
+            <td><span id="timer">0</span>초</td>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    document.querySelector('#exec').addEventListener('click',function(){
+      var hor = parseInt(document.querySelector('#hor').value),
+          ver = parseInt(document.querySelector('#ver').value),
+          mine = parseInt(document.querySelector('#mine').value),
+          tbody = document.querySelector('#table tbody'),
+          shuffle = [],
+          mineList = Array(hor*ver).fill().map(function(i, index){
+            return index;
+          });
+
+      while(mineList.length > hor*ver-mine){
+        var moveVal = mineList.splice(Math.floor(Math.random() * mineList.length), 1)[0];
+        shuffle.push(moveVal);
+      }
+      console.log(shuffle);
+
+      
+      // 지뢰 테이블 생성 
+      for(var i=0;i<ver;i++){
+        var tr = document.createElement('tr');
+        for(var j=0;j<hor;j++){
+          var td = document.createElement('td');
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+
+      // for(var k=0;k<mineList.length;k++){
+      //   var mineVer = 
+      // }      
+
+    });
+  </script>
+</body>
+</html>
