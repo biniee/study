@@ -6,7 +6,7 @@
   <title>exam</title>
   <style>
     table{border-collapse:collapse;text-align:center;}
-    td{width:20px;height:20px;border:1px solid #111;}
+    tbody td{width:20px;height:20px;border:1px solid #111;}
   </style>
 </head>
 <body>
@@ -22,42 +22,59 @@
             <td><span id="timer">0</span>초</td>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+        </tbody>
       </table>
     </div>
   </div>
   <script>
-    document.querySelector('#exec').addEventListener('click',function(){
-      var hor = parseInt(document.querySelector('#hor').value),
+    document.querySelector('#exec').addEventListener('click',function(e){
+      e.preventDefault();
+      var tbody = document.querySelector('#table tbody'),
+          hor = parseInt(document.querySelector('#hor').value),
           ver = parseInt(document.querySelector('#ver').value),
-          mine = parseInt(document.querySelector('#mine').value),
-          tbody = document.querySelector('#table tbody'),
-          shuffle = [],
-          mineList = Array(hor*ver).fill().map(function(i, index){
-            return index;
-          });
+          mineNum = parseInt(document.querySelector('#mine').value),
+          mineList = Array(100).fill().map(function(i, index){
+              return index;
+          }),
+          shuffle = [];
 
-      while(mineList.length > hor*ver-mine){
-        var moveVal = mineList.splice(Math.floor(Math.random() * mineList.length), 1)[0];
-        shuffle.push(moveVal);
-      }
-      console.log(shuffle);
+          tbody.innerHTML = '';
 
-      
-      // 지뢰 테이블 생성 
-      for(var i=0;i<ver;i++){
-        var tr = document.createElement('tr');
-        for(var j=0;j<hor;j++){
-          var td = document.createElement('td');
-          tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-      }
+          // 지뢰 테이블 생성
+          var dataset = [];
+          for(var i=0;i<ver;i++){
+            var tr = document.createElement('tr');
+            dataset.push([]);
+            for(var j=0;j<hor;j++){
+              var td = document.createElement('td');
+              tr.appendChild(td);
+              dataset[i].push(1);
+            }
+            tbody.appendChild(tr);
+          }
+          //console.log(dataset);
+          
+          // 지뢰 심기
+          while(shuffle.length < mineNum){ // 20개 뽑기
+            var moveVal = mineList.splice(Math.floor(Math.random()*(hor*ver)))[0];
+            shuffle.push(moveVal);
+          console.log(shuffle.length, mineNum);
+          console.log(moveVal);
+          }
 
-      // for(var k=0;k<mineList.length;k++){
-      //   var mineVer = 
-      // }      
+          // for(var k=0;k<shuffle.length;k++){
+          //   var fstCoord = Math.floor(shuffle[k] / 10),
+          //       secCoord = Math.floor(shuffle[k] % 10)
+          //   console.log(fstCoord, secCoord);
+          //   dataset[fstCoord][secCoord] = 'X';
+          // }
 
+
+          /*
+          1. 테이블 생성, 데이터 테이블 같이 생성
+          2. 지뢰 랜덤으로 심기
+          */
     });
   </script>
 </body>
