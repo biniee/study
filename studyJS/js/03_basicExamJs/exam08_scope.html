@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam scope</title>
+ 
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+      
+    </div>
+  </div>
+  <script>
+    /* ex 01 - 스코프 */
+    var x = 'global';
+    function ex(){
+      var x = 'local';
+      x = 'change';
+    }
+    ex();
+    window.alert(x);
+    
+
+    /* ex 02 - 스코프 체인*/
+    var name01 = 'zero';
+    function outer(){
+      console.log('외부', name); // zero
+      function inner(){
+        var enemy = 'nero';
+        console.log('내부', name); //zero
+      }
+      inner();
+    }
+    outer();
+    console.log(enemy); //not defined
+
+
+    /* ex 03 - 렉시컬 스코프(정적 스코프) */
+    var name02 = 'zero';
+    function log(){
+      console.log(name); // 41번 째 name과 연결
+    }
+    function wrapper(){
+      var name02 = 'nero';
+      log();
+    }
+    wrapper(); //zero
+  </script>
+</body>
+</html>

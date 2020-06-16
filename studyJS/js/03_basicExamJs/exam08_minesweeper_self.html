@@ -6,7 +6,7 @@
   <title>exam</title>
   <style>
     table{border-collapse:collapse;text-align:center;}
-    tbody td{width:20px;height:20px;border:1px solid #111;}
+    tbody td{width:22px;height:22px;border:1px solid #111;}
   </style>
 </head>
 <body>
@@ -49,10 +49,41 @@
               var td = document.createElement('td');
               tr.appendChild(td);
               dataset[i].push(1);
+              // s. 우클릭 이벤트 
+              td.addEventListener('contextmenu',function(e){
+                e.preventDefault();
+                var tg = e.currentTarget,
+                    parentTr = tg.parentNode,
+                    parentTbody = tg.parentNode.parentNode,
+                    indexTd = Array.prototype.indexOf.call(parentTr.children, tg),
+                    indexTr = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+
+                if(['','X'].includes(tg.textContent)){
+                  tg.textContent = '!';
+                }else if(tg.textContent === '!'){
+                  tg.textContent = '?';
+                }else if(tg.textContent === '?'){
+                  if( dataset[indexTr][indexTd] === 'X'){
+                    tg.textContent = 'X';
+                  }else if(dataset[indexTr][indexTd] === 1){
+                    tg.textContent = '';
+                  }
+                }
+              });
+              td.addEventListener('click',function(e){
+                console.log(e.currentTarget);
+                var tg = e.currentTarget,
+                    parentTr = tg.parentNode,
+                    parentTbody = tg.parentNode.parentNode,
+                    indexTd = Array.prototype.indexOf.call(parentTr.children, tg),
+                    indexTr = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+                
+                
+              });
             }
             tbody.appendChild(tr);
           }
-          //console.log(dataset);
+          console.log('dataset',dataset);
           
           // 지뢰 심기
           while(shuffle.length < mineNum){ // 20개 뽑기
@@ -63,8 +94,7 @@
 
           for(var k=0;k<shuffle.length;k++){
             var fstCoord = Math.floor(shuffle[k] / 10),
-                secCoord = Math.floor(shuffle[k] % 10)
-            console.log(fstCoord, secCoord);
+                secCoord = Math.floor(shuffle[k] % 10);
             dataset[fstCoord][secCoord] = 'X';
             tbody.children[fstCoord].children[secCoord].textContent = 'X';
           }

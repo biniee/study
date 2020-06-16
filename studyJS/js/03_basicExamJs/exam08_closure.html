@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam closure</title>
+ 
+</head>
+<body>
+  <div class="wrap">
+    <div id="container">
+      
+    </div>
+  </div>
+  <script>
+    for(var i=0;i<100;i++){
+      setTimeout(function(){
+        console.log(i);
+      }, i*1000);
+    }
+    /* 
+    숫자 100만 1초단위로 계속 찍힘
+    비동기와 반복문을 같이 사용했을 때 발생하는 문제.
+    */
+  </script>
+</body>
+</html>
