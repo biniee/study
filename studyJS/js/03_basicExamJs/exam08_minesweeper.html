@@ -7,6 +7,8 @@
   <style>
     table{margin-top:30px;border-collapse:collapse;text-align:center;}
     tbody td{width:20px;height:20px;border:1px solid #111;}
+    tbody td{background:#444;}
+    tbody td.opened{background:#fff;}
   </style>
 </head>
 <body>
@@ -87,22 +89,38 @@
                 block = Array.prototype.indexOf.call(parentTr.children, tg),
                 line  = Array.prototype.indexOf.call(parentTbody.children, parentTr);
             
+            tg.classList.add('opened');
             if(dataset[line][block] === 'X'){
               tg.textContent = '펑';
             }else{
-              var closeCnt = [ dataset[line][block-1], dataset[line][block+1] ];
+              var closeMine = [ dataset[line][block-1], dataset[line][block+1] ];
               if(dataset[line-1]){
                 console.log('윗줄');
-                closeCnt = closeCnt.concat( [ dataset[line-1][block-1], dataset[line-1][block], dataset[line-1][block+1] ] );
+                closeMine = closeMine.concat( [ dataset[line-1][block-1], dataset[line-1][block], dataset[line-1][block+1] ] );
               }
               if(dataset[line+1]){
                 console.log('아랫줄');
-                closeCnt = closeCnt.concat( [ dataset[line+1][block-1], dataset[line+1][block], dataset[line+1][block+1] ] );
+                closeMine = closeMine.concat( [ dataset[line+1][block-1], dataset[line+1][block], dataset[line+1][block+1] ] );
               }
-              console.log('closeCtn :',closeCnt);
-              tg.textContent = closeCnt.filter(function(v){
+              console.log('closeCtn :',closeMine);
+              var closeMineCnt = closeMine.filter(function(v){
                 return v === 'X';
               }).length;
+              tg.textContent = closeMineCnt;
+              if(closeMineCnt === 0){
+                // 주변 8칸 동시 오픈(재귀함수)
+                var closeBlock = [];
+                closeBlock = closeBlock.concat([ tbody.children[line].children[block-1], tbody.children[line].children[block+1], ])
+                if(tbody.children[line-1]){
+                  closeBlock = closeBlock.concat([ tbody.children[line-1].children[block-1], tbody.children[line-1].children[block], tbody.children[line-1].children[block+1] ]);
+                }
+                if(tbody.children[line+1]){
+                  closeBlock = closeBlock.concat([ tbody.children[line+1].children[block-1], tbody.children[line+1].children[block], tbody.children[line+1].children[block+1] ]);
+                }
+                closeBlock.filter(function(v){ return !!v}).forEach(function(nextBlock){ // !!v : 배열에서 undefined나 null 값 등 제거하는 코드
+                  nextBlock.click();
+                });
+              }
             }
 
           });
@@ -111,7 +129,7 @@
         tbody.appendChild(tr);
       }
 
-      //console.log(shuffle.length);
+      // 지뢰 심기
       for(var k=0;k<shuffle.length;k++){
         var mineVer = Math.floor(shuffle[k] / 10),
             mineHor = shuffle[k] % 10;
@@ -121,6 +139,15 @@
       }
       console.log('dataset',dataset);
     });
+    
+    // 재귀함수 
+    function recursion(num){
+      console.log(num);
+      if(num<5){
+        recursion(num+1);
+      }
+    }
+    recursion(1);
   </script>
 </body>
 </html>
