@@ -93,17 +93,15 @@
             if(dataset[line][block] === 'X'){
               tg.textContent = '펑';
             }else{
-              var closeMine = [ dataset[line][block-1], dataset[line][block+1] ];
+              var closeArea = [ dataset[line][block-1], dataset[line][block+1] ];
               if(dataset[line-1]){
-                console.log('윗줄');
-                closeMine = closeMine.concat( [ dataset[line-1][block-1], dataset[line-1][block], dataset[line-1][block+1] ] );
+                closeArea = closeArea.concat( [ dataset[line-1][block-1], dataset[line-1][block], dataset[line-1][block+1] ] );
               }
               if(dataset[line+1]){
-                console.log('아랫줄');
-                closeMine = closeMine.concat( [ dataset[line+1][block-1], dataset[line+1][block], dataset[line+1][block+1] ] );
+                closeArea = closeArea.concat( [ dataset[line+1][block-1], dataset[line+1][block], dataset[line+1][block+1] ] );
               }
-              console.log('closeCtn :',closeMine);
-              var closeMineCnt = closeMine.filter(function(v){
+              //console.log('closeCtn :',closeArea);
+              var closeMineCnt = closeArea.filter(function(v){
                 return v === 'X';
               }).length;
               tg.textContent = closeMineCnt;
@@ -137,17 +135,17 @@
         tbody.children[mineVer].children[mineHor].textContent = 'X';
         dataset[mineVer][mineHor] = 'X';
       }
-      console.log('dataset',dataset);
+      //console.log('dataset',dataset);
     });
     
-    // 재귀함수 
+    /* 재귀함수 
     function recursion(num){
-      console.log(num);
       if(num<5){
         recursion(num+1);
       }
     }
     recursion(1);
+    */
   </script>
 </body>
 </html>
