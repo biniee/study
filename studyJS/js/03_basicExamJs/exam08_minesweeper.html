@@ -26,11 +26,14 @@
         </thead>
         <tbody></tbody>
       </table>
+      <div id="result"></div>
     </div>
   </div>
   <script>
     var dataset = [],
-        tbody = document.querySelector('#table tbody');
+        tbody = document.querySelector('#table tbody'),
+        stopFlag = false,
+        openedCnt = 0;
     document.querySelector('#exec').addEventListener('click',function(){
       var hor = parseInt(document.querySelector('#hor').value),
           ver = parseInt(document.querySelector('#ver').value),
@@ -38,11 +41,15 @@
           mineList = Array(hor*ver).fill().map(function(i, index){
             return index;
           }),
+          resultBox = document.querySelector('#result'),
           shuffle = [];
 
       /* reset */    
       tbody.innerHTML = '';
-      dataset = [];      
+      dataset = [];
+      resultBox.textContent = ''; 
+      stopFlag = false;
+      openedCnt = 0;
 
       // 지뢰 위치 뽑기
       while(mineList.length > hor*ver-mine){
@@ -56,10 +63,13 @@
             tr = document.createElement('tr');
         dataset.push(arr);
         for(var j=0;j<hor;j++){
-          arr.push(1);
+          arr.push(0);
           var td = document.createElement('td');
           td.addEventListener('contextmenu',function(e){ // 오른쪽 클릭 시 evt  contextmenu : 오른쪽 클릭하는 이벤트
             e.preventDefault();
+            if(stopFlag){
+              return;
+            }
             var tg = e.currentTarget,
                 parentTr = tg.parentNode,
                 parentTbody = tg.parentNode.parentNode,
@@ -83,16 +93,28 @@
                 }
           });
           td.addEventListener('click',function(e){ // 클릭 시 evt
+            if(stopFlag){
+              return;
+            }
             var tg = e.currentTarget,
                 parentTr = tg.parentNode,
                 parentTbody = tg.parentNode.parentNode,
                 block = Array.prototype.indexOf.call(parentTr.children, tg),
                 line  = Array.prototype.indexOf.call(parentTbody.children, parentTr);
             
+            if(dataset[line][block] === 1){
+              return;
+            }
+            
             tg.classList.add('opened');
+            openedCnt += 1;
+            console.log(openedCnt);
             if(dataset[line][block] === 'X'){
               tg.textContent = '펑';
+              resultBox.textContent = '실패';
+              stopFlag = true;
             }else{
+              dataset[line][block] = 1;
               var closeArea = [ dataset[line][block-1], dataset[line][block+1] ];
               if(dataset[line-1]){
                 closeArea = closeArea.concat( [ dataset[line-1][block-1], dataset[line-1][block], dataset[line-1][block+1] ] );
@@ -100,11 +122,11 @@
               if(dataset[line+1]){
                 closeArea = closeArea.concat( [ dataset[line+1][block-1], dataset[line+1][block], dataset[line+1][block+1] ] );
               }
-              //console.log('closeCtn :',closeArea);
               var closeMineCnt = closeArea.filter(function(v){
                 return v === 'X';
               }).length;
-              tg.textContent = closeMineCnt;
+              tg.textContent = closeMineCnt || '';
+              // 거짓인 값 : false, '', 0, null, undefined, NaN
               if(closeMineCnt === 0){
                 // 주변 8칸 동시 오픈(재귀함수)
                 var closeBlock = [];
@@ -116,8 +138,19 @@
                   closeBlock = closeBlock.concat([ tbody.children[line+1].children[block-1], tbody.children[line+1].children[block], tbody.children[line+1].children[block+1] ]);
                 }
                 closeBlock.filter(function(v){ return !!v}).forEach(function(nextBlock){ // !!v : 배열에서 undefined나 null 값 등 제거하는 코드
-                  nextBlock.click();
+                  var parentTr = nextBlock.parentNode,
+                      parentTbody = nextBlock.parentNode.parentNode,
+                      nbBlock = Array.prototype.indexOf.call(parentTr.children, nextBlock),
+                      nbLine  = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+                      if(dataset[nbLine][nbBlock] !== 1){
+                        nextBlock.click();
+                      }
                 });
+              }
+              if(openedCnt === hor*ver-mine){
+                console.log('win');
+                stopFlag = true;
+                resultBox.textContent = '승리!';
               }
             }
 
@@ -129,8 +162,8 @@
 
       // 지뢰 심기
       for(var k=0;k<shuffle.length;k++){
-        var mineVer = Math.floor(shuffle[k] / 10),
-            mineHor = shuffle[k] % 10;
+        var mineVer = Math.floor(shuffle[k] / ver),
+            mineHor = shuffle[k] % ver;
         
         tbody.children[mineVer].children[mineHor].textContent = 'X';
         dataset[mineVer][mineHor] = 'X';
