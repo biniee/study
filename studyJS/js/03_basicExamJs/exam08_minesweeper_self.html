@@ -5,109 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
   <title>exam</title>
   <style>
-    table{border-collapse:collapse;text-align:center;}
+    #container{width:800px;margin:0 auto;text-align:center;}
+    .btns button{margin: 80px 5px 40px;padding:5px 10px;background:#fff;border:1px solid #888;border-radius:3px;outline:none;cursor:pointer;}
+    table{margin:0 auto;border-collapse:collapse;text-align:center;}
     tbody td{width:22px;height:22px;border:1px solid #111;}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div id="container">
-      <input type="number" id="hor" placeholder="가로" value="10">
-      <input type="number" id="ver" placeholder="세로" value="10">
-      <input type="number" id="mine" placeholder="지뢰" value="20">
-      <button id="exec">실행</button>
-      <table id="table">
-        <thead>
-          <tr>
-            <td><span id="timer">0</span>초</td>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+      <div class="btns">
+        <button data-col="9" data-row="9" data-mine="10">초급</button>
+        <button data-col="16" data-row="16" data-mine="40">중급</button>
+        <button data-col="30" data-row="16" data-mine="99">고급</button>
+      </div>
+      <div>
+        <table id="gametable">
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <script>
-    document.querySelector('#exec').addEventListener('click',function(e){
-      e.preventDefault();
-      var tbody = document.querySelector('#table tbody'),
-          hor = parseInt(document.querySelector('#hor').value),
-          ver = parseInt(document.querySelector('#ver').value),
-          mineNum = parseInt(document.querySelector('#mine').value),
-          mineList = Array(100).fill().map(function(i, index){
-              return index;
-          }),
-          shuffle = [];
-          tbody.innerHTML = '';
+    var tbody = document.querySelector('#gametable tbody'),
+        dataset = [];
+    document.querySelectorAll('.btns button').forEach(function(btn){
+      btn.addEventListener('click',function(e){
+        e.preventDefault();
+        var target = e.currentTarget,
+            col = target.dataset.col,
+            row = target.dataset.row,
+            mine = target.dataset.mine;
 
-          // 지뢰 테이블 생성
-          var dataset = [];
-          for(var i=0;i<ver;i++){
-            var tr = document.createElement('tr');
-            dataset.push([]);
-            for(var j=0;j<hor;j++){
-              var td = document.createElement('td');
-              tr.appendChild(td);
-              dataset[i].push(1);
-              // s. 우클릭 이벤트 
-              td.addEventListener('contextmenu',function(e){
-                e.preventDefault();
-                var tg = e.currentTarget,
-                    parentTr = tg.parentNode,
-                    parentTbody = tg.parentNode.parentNode,
-                    indexTd = Array.prototype.indexOf.call(parentTr.children, tg),
-                    indexTr = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+        // 초기화
+        tbody.innerHTML = '';
+        dataset = [];
 
-                if(['','X'].includes(tg.textContent)){
-                  tg.textContent = '!';
-                }else if(tg.textContent === '!'){
-                  tg.textContent = '?';
-                }else if(tg.textContent === '?'){
-                  if( dataset[indexTr][indexTd] === 'X'){
-                    tg.textContent = 'X';
-                  }else if(dataset[indexTr][indexTd] === 1){
-                    tg.textContent = '';
-                  }
-                }
-              });
-              td.addEventListener('click',function(e){
-                console.log(e.currentTarget);
-                var tg = e.currentTarget,
-                    parentTr = tg.parentNode,
-                    parentTbody = tg.parentNode.parentNode,
-                    indexTd = Array.prototype.indexOf.call(parentTr.children, tg),
-                    indexTr = Array.prototype.indexOf.call(parentTbody.children, parentTr);
-                
-                
-              });
-            }
-            tbody.appendChild(tr);
+        // 지뢰 테이블 & 데이터 테이블 생성
+        
+        for(var i=0;i<row;i++){
+          var arr = [],
+              tr = document.createElement('tr');
+          dataset.push(arr);
+          for(var j=0;j<col;j++){
+            var td = document.createElement('td');
+            tr.appendChild(td);
+            dataset[i].push(0);
           }
-          console.log('dataset',dataset);
-          
-          // 지뢰 심기
-          while(shuffle.length < mineNum){ // 20개 뽑기
-            var moveVal = mineList.splice(Math.floor(Math.random()*(mineList.length)), 1)[0];
-            shuffle.push(moveVal);
-          }
-          console.log(shuffle);
+          tbody.appendChild(tr);
+        }
+        //console.log(dataset);
+        
+        // 지뢰 심기
+        var numArr = Array(col*row).fill().map(function(i, index){
+          return index+1;
+        });
+        var mineArr = [];
+        while(numArr.length > col*row-mine){
+          var num = numArr.splice(Math.floor(Math.random()*numArr.length)-1,1)[0];
+          mineArr.push(num);
+        }
+        for(var k=0;k<mineArr.length;k++){
+          var mineCol = Math.ceil(mineArr[k] / col),
+              mineRow = mineArr[k] % row;
+          console.log(mineCol, mineRow);
 
-          for(var k=0;k<shuffle.length;k++){
-            var fstCoord = Math.floor(shuffle[k] / 10),
-                secCoord = Math.floor(shuffle[k] % 10);
-            dataset[fstCoord][secCoord] = 'X';
-            tbody.children[fstCoord].children[secCoord].textContent = 'X';
-          }
+          tbody.children[mineCol].children[mineRow].textContent = 'X';
+        }
+      })
+    })
 
-
-          /*
-          1. 테이블, 데이터 테이블 생성 v
-          2. 지뢰 랜덤으로 심기         v
-          3. td 우클릭이벤트 
-          4. td 좌클릭 이벤트
-          5. 좌클릭 - 해당 칸 지뢰인지 아닌지, 주변 지뢰 갯수
-          */
-    });
+    /*
+    1. 테이블, 데이터 테이블 생성
+       - 초급 : 9x9 10개 / 중급 : 16x16 40개 / 고급 : 30x16 99개
+    2. 지뢰 랜덤으로 심기
+    3. td 우클릭이벤트
+       - 깃발 달기(느낌표) -> 없애기
+    4. td 좌클릭 이벤트
+       - 열린 칸 : 주변지뢰 개수 / 닫힌 칸 : 열기
+    */
   </script>
 </body>
 </html>
