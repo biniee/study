@@ -5,16 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
   <title>exam reaction velocity</title>
   <style>
-    #screen{width:800px;height:460px;text-align:center;padding-top:40px;color:#333;user-select:none;font-size:18px;}
+    #screen{width:600px;height:360px;text-align:center;padding-top:40px;color:#333;user-select:none;font-size:18px;}
     #screen.waiting{background-color:lightskyblue;}
     #screen.ready{background-color:crimson;color:#fff;}
-    #screen.ready{background-color:mediumspringgreen;}
+    #screen.now{background-color:seagreen;}
   </style>
 </head>
 <body>
-  <div id="screen" class="waiting">클릭해서 시작하세요</div>
+  <div id="screen" class="waiting">Click to start</div>
   <script>
-    
+    var screen = document.querySelector('#screen'),
+        startTime,
+        endTime,
+        timeout,
+        recode = [];
+    screen.addEventListener('click',function(e){
+      if(screen.classList.contains('waiting')){
+        screen.classList.replace('waiting','ready');
+        screen.textContent = 'Wait for green';
+        timeout = setTimeout(function(){
+          startTime = new Date();
+          screen.click();
+        }, Math.floor(Math.random()*1000) + 2000 ); // 2000 ~ 3000 사이의 랜덤 수 뽑기
+      }else if(screen.classList.contains('ready')){
+        if(!startTime){
+          screen.classList.replace('ready','waiting');
+          screen.textContent = 'plese click when green';
+          clearTimeout(timeout);
+        }else{
+          screen.classList.replace('ready','now');
+          screen.textContent = 'Click now';
+        }
+      }else if(screen.classList.contains('now')){
+        endTime = new Date();
+        console.log('반응속도', endTime - startTime, 'ms');
+        recode.push(endTime-startTime);
+        startTime = null;
+        endTime = null;
+        screen.classList.replace('now','waiting');
+        screen.textContent = 'Click to start';
+      }
+    });
   </script>
 </body>
 </html>
