@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0", user-scalable="no"></mata>
+  <title>exam reaction velocity</title>
+  <style>
+    #screen{width:1000px;height:420px;text-align:center;padding-top:100px;color:#333;user-select:none;font-size:18px;color:#fff;}
+    #screen.waiting{background-color:dodgerblue;}
+    #screen.ready{background-color:crimson;}
+    #screen.now{background-color:yellowgreen;}
+    #screen h2{font-size:52px;margin-bottom:22px;}
+    #screen p{line-height:25px;letter-spacing:-.3px;}
+  </style>
+</head>
+<body>
+  <div id="screen" class="waiting">
+    <h2>Reaction Time Test</h2>
+    <p>When the red turns green, click as quickly as you can.<br>Click anywhere to start.</p>
+    
+  </div>
+  <script>
+    var screen = document.querySelector('#screen'),
+        titText = document.querySelector('#screen h2'),
+        subText = document.querySelector('#screen p'),
+        startTime,
+        endTime,
+        timeout,
+        recode = [];
+    screen.addEventListener('click', function(){
+      if(screen.classList.contains('waiting')){
+        screen.classList.replace('waiting', 'ready');
+        titText.textContent = 'Wait for Green';
+        subText.textContent = '';
+        timeout = setTimeout(function(){
+          startTime = new Date();
+          screen.click();
+        }, Math.floor(Math.random()*1000 +2000));
+      }else if(screen.classList.contains('ready')){
+        if(!startTime){
+          console.log('too soon');
+          clearTimeout(timeout);
+          screen.classList.replace('ready', 'waiting');
+          titText.textContent = 'Too Soon!';
+          subText.textContent = 'Click to try again';
+        }else{
+          screen.classList.replace('ready', 'now');
+          titText.textContent = 'Click!';
+        }
+      }else if(screen.classList.contains('now')){
+        endTime = new Date();
+        var result = endTime - startTime,
+            average,
+            sum = 0;
+        titText.textContent = result + 'ms';
+        subText.textContent = 'Click to keep going';
+        screen.classList.replace('now', 'waiting');
+        recode.push(result);
+        for(var i=0;i<recode.length;i++){
+          sum += recode[i];
+        }
+        average = sum / recode.length;
+
+        console.log(average);
+        startTime = null;
+        endTime = null;
+      }
+    });
+  </script>
+</body>
+</html>
