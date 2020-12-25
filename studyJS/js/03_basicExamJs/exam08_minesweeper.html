@@ -30,155 +30,91 @@
     </div>
   </div>
   <script>
-    var dataset = [],
-        tbody = document.querySelector('#table tbody'),
-        stopFlag = false,
-        openedCnt = 0;
-    document.querySelector('#exec').addEventListener('click',function(){
+    var tbody = document.querySelector('#table tbody'),
+        dataset = [];
+    document.querySelector('#exec').addEventListener('click', function(){
       var hor = parseInt(document.querySelector('#hor').value),
           ver = parseInt(document.querySelector('#ver').value),
-          mine = parseInt(document.querySelector('#mine').value),
-          mineList = Array(hor*ver).fill().map(function(i, index){
-            return index;
-          }),
-          resultBox = document.querySelector('#result'),
-          shuffle = [];
-
-      /* reset */    
+          mine = parseInt(document.querySelector('#mine').value);
+          
       tbody.innerHTML = '';
-      dataset = [];
-      resultBox.textContent = ''; 
-      stopFlag = false;
-      openedCnt = 0;
 
-      // 지뢰 위치 뽑기
-      while(mineList.length > hor*ver-mine){
-        var moveVal = mineList.splice(Math.floor(Math.random() * mineList.length), 1)[0];
-        shuffle.push(moveVal);
+
+      // 지뢰 위치값 뽑기
+      var candidate = Array(hor*ver).fill().map(function(i, index){
+        return index;
+      });
+      var suffle = [];
+      while(candidate.length> (hor*ver)-mine){
+        var moveVal = candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0];
+        suffle.push(moveVal);
       }
-
-      // 지뢰 테이블 만들기
-      for(var i=0;i<ver;i++){
+      
+      // 지뢰 데이터배열 & 테이블 만들기
+      for(i=0;i<ver;i++){
         var arr = [],
             tr = document.createElement('tr');
-        dataset.push(arr);
-        for(var j=0;j<hor;j++){
-          arr.push(0);
+        for(j=0;j<hor;j++){
+          arr.push(1);
           var td = document.createElement('td');
-          td.addEventListener('contextmenu',function(e){ // 오른쪽 클릭 시 evt  contextmenu : 오른쪽 클릭하는 이벤트
+          td.addEventListener('contextmenu', function(e){
             e.preventDefault();
-            if(stopFlag){
-              return;
+            var parentTr = e.currentTarget.parentNode,
+                parentTbody = e.currentTarget.parentNode.parentNode,
+                block = Array.prototype.indexOf.call(parentTr.children, e.currentTarget),
+                line = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+            
+            console.log(parentTr,parentTbody,e.currentTarget, block, line);
+            if( e.currentTarget.textContent === '' || e.currentTarget.textContent === 'X'){
+              e.currentTarget.textContent = '!';
+            }else if( e.currentTarget.textContent === '!'){
+              e.currentTarget.textContent = '?';
+            }else if( e.currentTarget.textContent === '?'){
+              if(dataset[line][block] === 1){
+                e.currentTarget.textContent = '';
+              }else if(dataset[line][block] === 'X'){
+                e.currentTarget.textContent = 'X';
+              }
             }
-            var tg = e.currentTarget,
-                parentTr = tg.parentNode,
-                parentTbody = tg.parentNode.parentNode,
-                block = Array.prototype.indexOf.call(parentTr.children, tg),
-                line  = Array.prototype.indexOf.call(parentTbody.children, parentTr);
-                /* 
-                var block = parentTr.children.indexOf(td),
-                    line = parentTbody.indexOf(tr);
-                => 에러. children은 배열이 아니고 유사배열이라서 indexOf를 사용할 수 없음
-                   indexof는 배열에서 사용 가능 */
-                if(['','X'].includes(tg.textContent)){
-                  tg.textContent = '!';
-                }else if(tg.textContent === '!'){
-                  tg.textContent = '?';
-                }else if(tg.textContent === '?'){
-                  if(dataset[line][block] === 'X'){
-                    tg.textContent = 'X';
-                  }else if(dataset[line][block] === 1){
-                    tg.textContent = '';
-                  }
-                }
+            
+            console.log(dataset);
           });
-          td.addEventListener('click',function(e){ // 클릭 시 evt
-            if(stopFlag){
-              return;
-            }
-            var tg = e.currentTarget,
-                parentTr = tg.parentNode,
-                parentTbody = tg.parentNode.parentNode,
-                block = Array.prototype.indexOf.call(parentTr.children, tg),
-                line  = Array.prototype.indexOf.call(parentTbody.children, parentTr);
-            
-            if(dataset[line][block] === 1){
-              return;
-            }
-            
-            tg.classList.add('opened');
-            openedCnt += 1;
-            console.log(openedCnt);
+          td.addEventListener('click',function(e){
+            var parentTr = e.currentTarget.parentNode,
+                parentTbody = e.currentTarget.parentNode.parentNode,
+                block = Array.prototype.indexOf.call(parentTr.children, e.currentTarget),
+                line = Array.prototype.indexOf.call(parentTbody.children, parentTr);
             if(dataset[line][block] === 'X'){
-              tg.textContent = '펑';
-              resultBox.textContent = '실패';
-              stopFlag = true;
+              e.currentTarget.textContent = '펑';
             }else{
-              dataset[line][block] = 1;
-              var closeArea = [ dataset[line][block-1], dataset[line][block+1] ];
+              var nearBlock = [dataset[line][block-1],dataset[line][block+1]];
               if(dataset[line-1]){
-                closeArea = closeArea.concat( [ dataset[line-1][block-1], dataset[line-1][block], dataset[line-1][block+1] ] );
+                nearBlock = nearBlock.concat(dataset[line-1][block-1],dataset[line-1][block],dataset[line-1][block+1]);
               }
               if(dataset[line+1]){
-                closeArea = closeArea.concat( [ dataset[line+1][block-1], dataset[line+1][block], dataset[line+1][block+1] ] );
+                nearBlock = nearBlock.concat(dataset[line+1][block-1],dataset[line+1][block], dataset[line+1][block+1]);
               }
-              var closeMineCnt = closeArea.filter(function(v){
-                return v === 'X';
-              }).length;
-              tg.textContent = closeMineCnt || '';
-              // 거짓인 값 : false, '', 0, null, undefined, NaN
-              if(closeMineCnt === 0){
-                // 주변 8칸 동시 오픈(재귀함수)
-                var closeBlock = [];
-                closeBlock = closeBlock.concat([ tbody.children[line].children[block-1], tbody.children[line].children[block+1], ])
-                if(tbody.children[line-1]){
-                  closeBlock = closeBlock.concat([ tbody.children[line-1].children[block-1], tbody.children[line-1].children[block], tbody.children[line-1].children[block+1] ]);
-                }
-                if(tbody.children[line+1]){
-                  closeBlock = closeBlock.concat([ tbody.children[line+1].children[block-1], tbody.children[line+1].children[block], tbody.children[line+1].children[block+1] ]);
-                }
-                closeBlock.filter(function(v){ return !!v}).forEach(function(nextBlock){ // !!v : 배열에서 undefined나 null 값 등 제거하는 코드
-                  var parentTr = nextBlock.parentNode,
-                      parentTbody = nextBlock.parentNode.parentNode,
-                      nbBlock = Array.prototype.indexOf.call(parentTr.children, nextBlock),
-                      nbLine  = Array.prototype.indexOf.call(parentTbody.children, parentTr);
-                      if(dataset[nbLine][nbBlock] !== 1){
-                        nextBlock.click();
-                      }
-                });
-              }
-              if(openedCnt === hor*ver-mine){
-                console.log('win');
-                stopFlag = true;
-                resultBox.textContent = '승리!';
-              }
+              
+              e.currentTarget.textContent = nearBlock.filter(function(v){return v === 'X';}).length;
             }
-
           });
           tr.appendChild(td);
         }
+        dataset.push(arr);
         tbody.appendChild(tr);
       }
 
-      // 지뢰 심기
-      for(var k=0;k<shuffle.length;k++){
-        var mineVer = Math.floor(shuffle[k] / ver),
-            mineHor = shuffle[k] % ver;
-        
-        tbody.children[mineVer].children[mineHor].textContent = 'X';
-        dataset[mineVer][mineHor] = 'X';
+      //지뢰 심기
+      for(k=0;k<suffle.length;k++){
+        var dataHor = Math.floor(suffle[k] / 10),
+            dataVer = suffle[k] % 10;
+        tbody.children[dataVer].children[dataHor].textContent = 'X';
+        dataset[dataVer][dataHor] = 'X';
       }
-      //console.log('dataset',dataset);
-    });
+      console.log('dataset',dataset,'suffle', suffle);
+    })
+
     
-    /* 재귀함수 
-    function recursion(num){
-      if(num<5){
-        recursion(num+1);
-      }
-    }
-    recursion(1);
-    */
   </script>
 </body>
 </html>
