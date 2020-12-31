@@ -6,7 +6,7 @@
   <title>exam</title>
   <style>
     table{margin-top:30px;border-collapse:collapse;text-align:center;}
-    tbody td{width:20px;height:20px;border:1px solid #111;}
+    tbody td{width:22px;height:22px;border:1px solid #111;}
     tbody td{background:#444;}
     tbody td.opened{background:#fff;}
   </style>
@@ -31,13 +31,21 @@
   </div>
   <script>
     var tbody = document.querySelector('#table tbody'),
-        dataset = [];
+        dataset = [],
+        count = 0,
+        flag = false;
     document.querySelector('#exec').addEventListener('click', function(){
       var hor = parseInt(document.querySelector('#hor').value),
           ver = parseInt(document.querySelector('#ver').value),
-          mine = parseInt(document.querySelector('#mine').value);
-          
+          mine = parseInt(document.querySelector('#mine').value),
+          result = document.querySelector('#result');
+        
+      // 초기화 
       tbody.innerHTML = '';
+      dataset = [];
+      result.textContent = '';
+      count = 0;
+      flag = false;
 
 
       // 지뢰 위치값 뽑기
@@ -55,16 +63,17 @@
         var arr = [],
             tr = document.createElement('tr');
         for(j=0;j<hor;j++){
-          arr.push(1);
+          arr.push(0);
           var td = document.createElement('td');
           td.addEventListener('contextmenu', function(e){
             e.preventDefault();
+            if(flag){ return; }
             var parentTr = e.currentTarget.parentNode,
                 parentTbody = e.currentTarget.parentNode.parentNode,
                 block = Array.prototype.indexOf.call(parentTr.children, e.currentTarget),
                 line = Array.prototype.indexOf.call(parentTbody.children, parentTr);
             
-            console.log(parentTr,parentTbody,e.currentTarget, block, line);
+            // console.log(parentTr,parentTbody,e.currentTarget, block, line);
             if( e.currentTarget.textContent === '' || e.currentTarget.textContent === 'X'){
               e.currentTarget.textContent = '!';
             }else if( e.currentTarget.textContent === '!'){
@@ -77,25 +86,70 @@
               }
             }
             
-            console.log(dataset);
+            // console.log(dataset);
           });
           td.addEventListener('click',function(e){
+            if(flag){ return; }
             var parentTr = e.currentTarget.parentNode,
                 parentTbody = e.currentTarget.parentNode.parentNode,
                 block = Array.prototype.indexOf.call(parentTr.children, e.currentTarget),
                 line = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+            e.currentTarget.classList.add('opened');
             if(dataset[line][block] === 'X'){
               e.currentTarget.textContent = '펑';
+              flag = true;
+              result.textContent = '실패';
             }else{
-              var nearBlock = [dataset[line][block-1],dataset[line][block+1]];
+              if( dataset[line][block] === 0 ){
+                count++;
+                dataset[line][block] = 1;
+              }
+              var near = [dataset[line][block-1],dataset[line][block+1]];
               if(dataset[line-1]){
-                nearBlock = nearBlock.concat(dataset[line-1][block-1],dataset[line-1][block],dataset[line-1][block+1]);
+                near = near.concat(dataset[line-1][block-1],dataset[line-1][block],dataset[line-1][block+1]);
               }
               if(dataset[line+1]){
-                nearBlock = nearBlock.concat(dataset[line+1][block-1],dataset[line+1][block], dataset[line+1][block+1]);
+                near = near.concat(dataset[line+1][block-1],dataset[line+1][block], dataset[line+1][block+1]);
               }
-              
-              e.currentTarget.textContent = nearBlock.filter(function(v){return v === 'X';}).length;
+              var nearMine = near.filter(function(v){return v === 'X';}).length;
+              e.currentTarget.textContent = nearMine || '';
+              if( nearMine === 0 ){
+                var nearBlock = [];
+                if(tbody.children[line-1]){
+                  nearBlock = nearBlock.concat([
+                    tbody.children[line-1].children[block-1],
+                    tbody.children[line-1].children[block],
+                    tbody.children[line-1].children[block+1],
+                  ]);
+                }
+                nearBlock = nearBlock.concat([
+                  tbody.children[line].children[block-1],
+                  tbody.children[line].children[block+1],
+                ]);
+                if(tbody.children[line+1]){
+                  nearBlock = nearBlock.concat([
+                    tbody.children[line+1].children[block-1],
+                    tbody.children[line+1].children[block],
+                    tbody.children[line+1].children[block+1],
+                  ]);
+                }
+                nearBlock.filter(function(v){
+                  return !!v;
+                }).forEach(function(n){ 
+                  var parentTr = n.parentNode,
+                      parentTbody = n.parentNode.parentNode,
+                      nextblock = Array.prototype.indexOf.call(parentTr.children, n),
+                      nextline = Array.prototype.indexOf.call(parentTbody.children, parentTr);
+                  if(dataset[nextline][nextblock] !== 1){
+                    n.click();
+                  }
+                });
+              }
+            }
+            console.log(count);
+            if(count === hor*ver-mine){
+              flag = true;
+              result.textContent = '승리!';
             }
           });
           tr.appendChild(td);
@@ -106,8 +160,8 @@
 
       //지뢰 심기
       for(k=0;k<suffle.length;k++){
-        var dataHor = Math.floor(suffle[k] / 10),
-            dataVer = suffle[k] % 10;
+        var dataHor = Math.floor(suffle[k] / ver),
+            dataVer = suffle[k] % ver;
         tbody.children[dataVer].children[dataHor].textContent = 'X';
         dataset[dataVer][dataHor] = 'X';
       }
